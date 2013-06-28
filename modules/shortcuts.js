@@ -39,8 +39,11 @@
         _.each(shortcuts, bind);
 
         var tid = $('#tid');
-        if (tid) {
+        var fid = $('#fid');
+        if (tid.length > 0) {
             bind(BASE_URL + FORUM_URL + 'post.php?tid=' + tid[0].value, 'r');
+        } else if (fid.length > 0) {
+            bind(BASE_URL + FORUM_URL + 'post.php?fid=' + fid[0].value, 'c');
         }
     });
 })(jQuery, window.PowerTools, Mousetrap);
