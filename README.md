@@ -13,6 +13,7 @@ Atajos para nagegar por mediavida a la velocidad de la luz.
 
 Atajos generales:
 - `a` : Avisos
+- `c` : Nuevo hilo (navegación por foro)
 - `f` : Favoritos
 - `m` : Mensajes
 - `p` : Perfil
