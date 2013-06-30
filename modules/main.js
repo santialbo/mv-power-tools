@@ -1,4 +1,5 @@
 window.PowerTools = {
+    url: 'http://www.mediavida.com',
     version: '0',
     options: {
         get: function(key, deaultValue) {
