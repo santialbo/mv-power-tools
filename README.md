@@ -6,6 +6,12 @@ Enhancements userscript for [mediavida.com](http://www.mediavida.com). This is s
 Features (in spanish)
 =====================
 
+Infinite scrolling
+------------------
+*Esta funcionalidad está en pruebas todavía*
+
+No hace falta que cambies de página. mv-power-tools cargará automáticamente las respuestas de la siguiente página cuando llegues al final de la actual.
+
 Shortcuts
 ---------
 
