@@ -1,141 +1,92 @@
 (function($, PowerTools) {
     $(function() {
+        // Infinite scrolling only works in threads
         if ($('#tid').length == 0) return;
+
+        var THREAD_URL = /.*\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0];
         
-        // Setup
-        var BASE_URL = PowerTools.url;
-        var THREAD_URL = /\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0];
-
         var loading = false;
-        var loadingSign = $('<div class="alert alert-info" style="text-align:center;"><strong>Cargando respuestas...</stong></div>');
         var page = parseInt($('#pagina')[0].value);
-        var pages = 0;
-        var tokens = {};
-        var firstPosts = {};
-        getDocumentInfo($(document));
+        var pages = [];
 
-        $(window).scroll(function() {
-            if ($('#postform').is(':visible')) return;
-            var scroll = $(window).scrollTop() + $(window).height();       
-            var bpScroll = $('#bottompanel').offset().top;
-            if (scroll > bpScroll && page < pages && !loading) loadPosts(page + 1);
-        }); 
-        $(window).scroll(checkPage);
-        document.addEventListener('afterAddPosts', function(e) {
-            e.detail.posts.each(function() {configurePost(this)});
-        });
-
-        function checkPage() {
-            // Checks the page being displayed in the window.
-            var scrollPosition = $(window).scrollTop() + $(window).height();
-            var newPage;
-            for (var i in firstPosts) {
-                if (scrollPosition > firstPosts[i].offset().top) {
-                    newPage = i;
-                } else break;
-            }
-            if (newPage != page) {
-                page = parseInt(newPage);
-                updatePagination();
-            }
-        }
-
-        function loadPosts(page) {
-            // Fetches the posts from the specified page and inserts them at
-            // end of the current thread.
-            $('#aultimo').remove();
-            loading = true;
-            loadingSign.insertBefore($('#bottompanel'));
-            var url = BASE_URL + THREAD_URL + '/' + page;
-            $.get(url, function(data) {
-                var doc = new DOMParser().parseFromString(data, "text/html");
-                getDocumentInfo(doc);
-                var posts = $('.largecol', doc).children()
-                    .not('.tpanel,.postit,#postform,#aprimero,#scrollpages');
-                posts.insertBefore($('#bottompanel'));
-                // Raise event
-                document.dispatchEvent(new CustomEvent('afterAddPosts', {
-                        detail: {posts: posts, thread: THREAD_URL, page: page},
-                        bubbles: false,
-                        cancelable: false,
-                    })
-                );
-                loading = false;
-                loadingSign.detach();
-            });
-        }
-
-        function getDocumentInfo(doc) {
-            // Gets the document information and saves it in the thread object
+        var getInfoFromDocument = function(doc) {
+            // Get thread information of a give HTML document
+            var page = parseInt($('#pagina', doc)[0].value);
             var last = $('a.last', doc);
-            var docPage = parseInt($('#pagina', doc)[0].value);
-            pages = (last.length ? parseInt(last.first().text()) : docPage);
-            tokens[docPage] = $('#token', doc).val();
-            firstPosts[docPage] = $('.odd:first', doc);
-        }
-
-        function updatePagination() {
-            // Update pagination with new information
-            function pageLink(page) {
-                var last = (page == pages) ? 'class="last" ' : '';
-                return '<a ' + last + 'href="' + THREAD_URL + '/' + page + '">' + page + '</a>';
+            return {
+                page: page,
+                npages: last.length ? parseInt(last.first().text()) : page,
+                posts: $('.post:not(.postit,:last)', doc),
             };
+        };
+
+        var getThreadPageInfo = function(threadURL, page) {
+            // Get thread information from a given page
+            var url = threadURL + '/' + page;
+            return $.get(url).then(function(source) {
+                var doc = new DOMParser().parseFromString(source, "text/html");
+                return getInfoFromDocument(doc);
+            });
+        };
+
+        var appendPostsToPage = function(posts) {
+            // Append posts to the page and update anchors accordingly
+            $('#aultimo').remove();
+            var $bottompanel = $('#bottompanel');
+            posts.each(function(i, post) {
+                if (i == posts.length - 1) {
+                    $('<a id="aultimo" name="ultimo"></a>').insertBefore($bottompanel);
+                }
+                var num = $(post).attr('id').replace('post', '');
+                $('<a name="' + num + '"></a>').insertBefore($bottompanel);
+                $(post).insertBefore($bottompanel);
+            });
+        };
+
+        var updatePagination = function(page) {
+            // Update pagination with new information
+            var npages = _.last(pages).npages
+            var pageLink = function(p, ps) { return '<a ' + ((p == ps) ? 'class="last" ' : '') + 'href="' + THREAD_URL + '/' + p + '">' + p + '</a>'; };
             var paginations = [$('#scrollpages'), $('strong.paginas')];
             paginations[0].children().slice(1).remove()
             paginations[1].children().remove()
             _.each(paginations, function(pagination) {
-                if (page >= 4) pagination.append(pageLink(1));
+                if (page >= 4) pagination.append(pageLink(1, npages));
                 if (page > 4) pagination.append('<span>...</span>');
                 for (var p = Math.max(1, page - 2); p < page; ++p)
-                    pagination.append(pageLink(p));
+                    pagination.append(pageLink(p, npages));
                 pagination.append('<em>' + page + '</em>');
-                for (p = page + 1; p <= Math.min(pages, page + 2); ++p) {
-                    pagination.append(pageLink(p));
+                for (p = page + 1; p <= Math.min(npages, page + 2); ++p) {
+                    pagination.append(pageLink(p, npages));
                 }
-                if (page < pages - 3) pagination.append('<span>...</span>');
-                if (page <= pages - 3) pagination.append(pageLink(pages));
+                if (page < npages - 3) pagination.append('<span>...</span>');
+                if (page <= npages - 3) pagination.append(pageLink(npages, npages));
             });
         };
 
-        function configurePost(post) {
-            // Show +1 and report button on post mouseenter event
-            var post_hide = $('.post_hide', $(post));
-            $(post).mouseenter(function(){post_hide.show();});
-            $(post).mouseleave(function(){post_hide.hide();});
-            // Clicking on +1 works
+        var configurePost = function(post) {
+            // Show +1 and report button on post mouseenter event.
+            $(post).mouseenter(function() { $('.post_hide', $(this)).show(); })
+                .mouseleave(function() { $('.post_hide', $(this)).hide(); });
             $(".masmola", $(post)).click(function () {
-                var plusOneCounter = $(this).parent().parent().prev().find(".mola");
+                var counter = $(this).parent().parent().prev().find(".mola");
                 var pid = $(this).attr("rel");
-                page = Math.floor((parseInt(pid) - 1)/30) + 1;
                 $.post("/foro/post_mola.php", {
-                    token: tokens[page],
+                    token: $("#token").val(),
                     tid: $("#tid").val(),
                     num: pid
-                }, function (res) {
-                    switch (res) {
-                        case "1":
-                            plusOneCounter.text(parseInt(plusOneCounter.text()) + 1);
-                            if (plusOneCounter.is(":hidden")) plusOneCounter.fadeIn();
-                            break;
-                        case "-1":
-                            alert("Ya has votado este post");
-                            break;
-                        case "-2":
-                            alert("No puedes votar más posts hoy");
-                            break;
-                        case "-3":
-                            alert("Regístrate para votar posts");
-                            break;
-                        case "-4":
-                            alert("No puedes votar este post");
-                            break;
-                        default:
-                            alert("Se ha producido un error, inténtalo más tarde");
-                            break;
-                    }
+                }).then(function (res) {
+                    if (res == "1") counter.text(parseInt(counter.text()) + 1).fadeIn();
+                    else if (res == "-1") alert("Ya has votado este post");
+                    else if (res == "-2") alert("No puedes votar más posts hoy");
+                    else if (res == "-3") alert("Regístrate para votar posts");
+                    else if (res == "-4") alert("No puedes votar este post");
+                }).fail(function() {
+                    alert("Se ha producido un error, inténtalo más tarde")
                 });
                 return false;
             });
+            // When clicking #XX the reply form gets focus and quotes the post.
             $(".qn", $(post)).click(function(){
                 var pid = $(this).attr("rel");
                 var textarea = $('#cuerpo');
@@ -146,5 +97,55 @@
                 return false;
             });
         }
+
+        pages.push(getInfoFromDocument(document));
+        
+        $(window).scroll(function() {
+            // Load posts when scroll to the end of the page
+            if (loading) return;
+            var scroll = $(window).scrollTop() + $(window).height();       
+            var bpScroll = $('#bottompanel').offset().top;
+            var last = _.last(pages);
+            if (scroll > bpScroll && !$('#postform').is(':visible') && last.page < last.npages) {
+                loading = true;
+                var $sign = $('<div class="alert alert-info" style="text-align: center;"></div>');
+                $sign.html('<strong>Cargando respuestas</strong> ...');
+                $sign.insertBefore($('#bottompanel'));
+                var current = _.last(pages).page;
+                getThreadPageInfo(THREAD_URL, current + 1).then(function(info) {
+                    pages.push(info);
+                    appendPostsToPage(info.posts);
+                    document.dispatchEvent(new CustomEvent('afterAddPosts', {
+                        detail: info,
+                        bubbles: false,
+                        cancelable: false,
+                    }));
+                    $sign.remove();
+                    loading = false;
+                }).fail(function(){
+                    $sign.html('<strong>Error cargando respuestas.</strong> <a href="' + THREAD_URL + '/' + current  +'#aultimo">Recarga la página</a>');
+                });
+            }
+        });
+
+        $(window).scroll(function() {
+            // Update pagination when changing page
+            var scroll = $(window).scrollTop() + $(window).height();       
+            var current;
+            for (var i in pages) {
+                var first = pages[i].posts[0];
+                if ($(first).offset().top < scroll) current = pages[i].page;
+                else break;
+            }
+            if (current != page) {
+                updatePagination(current);
+                page = current;
+            }
+        });
+
+        document.addEventListener('afterAddPosts', function(e) {
+            e.detail.posts.each(function(i, post) { configurePost(post); });
+        });
+
     });
 })(jQuery, window.PowerTools);
