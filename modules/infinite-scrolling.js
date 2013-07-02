@@ -41,6 +41,11 @@
                 $('<a name="' + num + '"></a>').insertBefore($bottompanel);
                 $(post).insertBefore($bottompanel);
             });
+            document.dispatchEvent(new CustomEvent('afterAddPosts', {
+                detail: posts,
+                bubbles: false,
+                cancelable: false,
+            }));
         };
 
         var updatePagination = function(page) {
@@ -115,11 +120,6 @@
                 getThreadPageInfo(THREAD_URL, current + 1).then(function(info) {
                     pages.push(info);
                     appendPostsToPage(info.posts);
-                    document.dispatchEvent(new CustomEvent('afterAddPosts', {
-                        detail: info,
-                        bubbles: false,
-                        cancelable: false,
-                    }));
                     $sign.remove();
                     loading = false;
                 }).fail(function(){
@@ -144,7 +144,7 @@
         });
 
         document.addEventListener('afterAddPosts', function(e) {
-            e.detail.posts.each(function(i, post) { configurePost(post); });
+            e.detail.each(function(i, post) { configurePost(post); });
         });
 
     });
