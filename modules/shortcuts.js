@@ -41,7 +41,11 @@
         var tid = $('#tid');
         var fid = $('#fid');
         if (tid.length > 0) {
-            bind(BASE_URL + FORUM_URL + 'post.php?tid=' + tid[0].value, 'r');
+            Mousetrap.bind('r', function() {
+                $('#postform').show();
+                $('#cuerpo').focus();
+                $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+            });
         } else if (fid.length > 0) {
             bind(BASE_URL + FORUM_URL + 'post.php?fid=' + fid[0].value, 'c');
         }
