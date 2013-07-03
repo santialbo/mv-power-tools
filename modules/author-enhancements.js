@@ -6,7 +6,8 @@
         var getUserInfo = function(userId) {
             var url = PT.url + '/id/' + userId;
             return $.get(url).then(function(source) {
-                var div = $('div.userinfo', source);
+                var doc = new DOMParser().parseFromString(source, "text/html");
+                var div = $('div.userinfo', doc);
                 return {
                     personalInfo: / *(.*),(?:\n +\t+(-?\d+) años, +(.*))?/.exec(div.children()[0].textContent).slice(1),
                     lastSeen: /((?:online)|(?:visto hace \d+ [^ ]+))/.exec(div.children()[1].textContent)[0].replace('visto hace ', ''),
