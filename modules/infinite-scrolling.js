@@ -1,7 +1,7 @@
 (function($, PowerTools) {
     $(function() {
         // Infinite scrolling only works in threads
-        if ($('#tid').length == 0) return;
+        if ($('#tid').length == 0 || /\/foro\/post.php/.exec(document.URL)) return;
 
         var THREAD_URL = /.*\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0];
         
