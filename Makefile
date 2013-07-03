@@ -1,5 +1,5 @@
 # Module definitions
-MODULE_FILES = header.js main.js shortcuts.js infinite-scrolling.js
+MODULE_FILES = header.js main.js shortcuts.js author-enhancements.js infinite-scrolling.js
 MODULE_DIR = ./modules/
 MODULES = $(addprefix $(MODULE_DIR), $(MODULE_FILES))
 

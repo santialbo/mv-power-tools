@@ -1,5 +1,6 @@
 window.PowerTools = {
     url: 'http://www.mediavida.com',
+    resURL: 'http://www.mvusertools.com',
     version: '0',
     options: {
         get: function(key, deaultValue) {
