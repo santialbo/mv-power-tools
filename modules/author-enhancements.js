@@ -49,15 +49,18 @@
                     infoDiv.toggle();
                 } else {
                     getUserInfo(userId).then(function(info) {
+                        var thousands = function(num) {
+                            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                        };
                         authorDiv.append([
                             '<dl class="pt-userinfo">',
                                 '<dd><strong>' + info.personalInfo[0] + '</strong>' + (info.personalInfo[1] ? ' (' + info.personalInfo[1] + ')' : '') + '</dd>',
                                 (info.personalInfo[2] ? '<dd>de ' + info.personalInfo[2] + '</dd>' : ''),
-                                '<dd>' + (info.lastSeen == 'online' ? '' : 'visto hace ') + info.lastSeen + '</dd>',
+                                (info.lastSeen == 'online' ? '' : '<dd>visto hace ' + info.lastSeen + '</dd>'),
                                 '<dd>registro: ' + info.registered + '</dd>',
-                                '<dd>posts: ' + info.forumInfo[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '</dd>',
-                                '<dd>visitas: ' + info.forumInfo[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '</dd>',
-                                '<dd><a href="/id/' + userId + '/firmas">firmas: ' + info.forumInfo[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '</a></dd>',
+                                '<dd>posts: ' + thousands(info.forumInfo[0]) + '</dd>',
+                                '<dd>visitas: ' + thousands(info.forumInfo[1]) + '</dd>',
+                                '<dd><a href="/id/' + userId + '/firmas">firmas: ' + thousands(info.forumInfo[2]) + '</a></dd>',
                             '</dl>',
                             ].join(''));
                     });
