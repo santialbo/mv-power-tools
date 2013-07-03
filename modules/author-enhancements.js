@@ -25,7 +25,7 @@
                 $(this).find('dd.online').remove();
                 var enhancements = $([
                     '<div class="pt-author-enhancements">',
-                        '<a class="tooltip pt-author-online' + (online ? ' pt-online' : '') + '" href="/id/' + authorId + '" original-title="Perfil">',
+                        '<a class="tooltip pt-author-online' + (online ? ' pt-online' : '') + '" href="#" original-title="' + (online ? 'Online' : 'Offline') + '">',
                             '<i class="icon-user"></i>',
                         '</a>',
                         '<a class="tooltip pt-author-mensaje" href="/mensajes/nuevos/' + authorId + '" original-title="Mensaje">',
