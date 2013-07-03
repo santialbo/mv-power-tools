@@ -4,7 +4,7 @@
         if ($('#tid').length == 0) return;
 
         var getUserInfo = function(userId) {
-            var url = PowerTools.url + '/id/' + userId;
+            var url = PT.url + '/id/' + userId;
             return $.get(url).then(function(source) {
                 var div = $('div.userinfo', source);
                 return {

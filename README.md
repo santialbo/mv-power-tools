@@ -1,21 +1,21 @@
 mv-power-tools
 ==============
 
-Enhancements userscript for [mediavida.com](http://www.mediavida.com). This is some sort of rewrite of [/vegon/mvusertools](https://github.com/vegon/mvusertools) using [/alvaro-cuesta/mvusertools](https://github.com/alvaro-cuesta/mvusertools) module system.
+Enhancements userscript for [mediavida.com](http://www.mediavida.com). This intends to be a rewrite of [/vegon/mvusertools](https://github.com/vegon/mvusertools) using [/alvaro-cuesta/mvusertools](https://github.com/alvaro-cuesta/mvusertools) module system and adding some of my previous userscripts.
 
 Features (in spanish)
 =====================
 
-Infinite scrolling
-------------------
+Scroll infinito
+---------------
 *Esta funcionalidad está en pruebas todavía*
 
 No hace falta que cambies de página. *mv-power-tools* cargará automáticamente las respuestas de la siguiente página cuando llegues al final de la actual.
 
 Además tampoco hará falta que refresques la página cuando hayan nuevas respuestas. Estas se incorporarán automáticamente al final de lá página (Es como si todos los hilos fueran live).
 
-Shortcuts
----------
+Atajos de teclado
+-----------------
 
 Atajos para nagegar por mediavida a la velocidad de la luz.
 
