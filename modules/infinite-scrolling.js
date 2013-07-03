@@ -69,36 +69,36 @@
             });
         };
 
-        var configurePost = function(post) {
+        var configurePosts = function(posts) {
             // Show +1 and report button on post mouseenter event.
-            $(post).mouseenter(function() { $('.post_hide', $(this)).show(); })
+            posts.mouseenter(function() { $('.post_hide', $(this)).show(); })
                 .mouseleave(function() { $('.post_hide', $(this)).hide(); });
-            $(".masmola", $(post)).click(function () {
+            $('.masmola', posts).click(function () {
                 var counter = $(this).parent().parent().prev().find(".mola");
-                var pid = $(this).attr("rel");
-                $.post("/foro/post_mola.php", {
+                var pid = $(this).attr('rel');
+                $.post('/foro/post_mola.php', {
                     token: $("#token").val(),
                     tid: $("#tid").val(),
                     num: pid
                 }).then(function (res) {
-                    if (res == "1") counter.text(parseInt(counter.text()) + 1).fadeIn();
-                    else if (res == "-1") alert("Ya has votado este post");
-                    else if (res == "-2") alert("No puedes votar más posts hoy");
-                    else if (res == "-3") alert("Regístrate para votar posts");
-                    else if (res == "-4") alert("No puedes votar este post");
+                    if (res == '1') counter.text(parseInt(counter.text()) + 1).fadeIn();
+                    else if (res == '-1') alert('Ya has votado este post');
+                    else if (res == '-2') alert('No puedes votar más posts hoy');
+                    else if (res == '-3') alert('Regístrate para votar posts');
+                    else if (res == '-4') alert('No puedes votar este post');
                 }).fail(function() {
-                    alert("Se ha producido un error, inténtalo más tarde")
+                    alert('Se ha producido un error, inténtalo más tarde')
                 });
                 return false;
             });
             // When clicking #XX the reply form gets focus and quotes the post.
-            $(".qn", $(post)).click(function(){
-                var pid = $(this).attr("rel");
+            $('.qn', posts).click(function(){
+                var pid = $(this).attr('rel');
                 var textarea = $('#cuerpo');
                 $('#postform').show();
                 textarea.focus();
                 textarea.val(textarea.val() + '#' + pid + ' ');
-                $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+                $('html, body').animate({ scrollTop: $(document).height() }, 'fast');
                 return false;
             });
         }
@@ -144,7 +144,7 @@
         });
 
         document.addEventListener('afterAddPosts', function(e) {
-            e.detail.each(function(i, post) { configurePost(post); });
+            configurePosts(e.detail);
         });
 
         // Automatically load new posts.
