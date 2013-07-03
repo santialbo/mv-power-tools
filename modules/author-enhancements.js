@@ -25,19 +25,20 @@
                 var enhancements = $([
                     '<div class="powertools">',
                         '<div class="online-pos">',
-                            '<a class="tooltip pt-' + (online ? 'online' : 'offline') + ' sprite icon" href="/id/' + authorId + '" title="Perfil"></a>',
+                            '<a class="tooltip pt-' + (online ? 'online' : 'offline') + ' sprite icon" href="/id/' + authorId + '" original-title="Perfil"></a>',
                         '</div>',
                         '<div class="mensaje-pos">',
-                            '<a class="tooltip pt-mensaje sprite icon" href="/mensajes/nuevos/' + authorId + '" title="Mensaje"></a>',
+                            '<a class="tooltip pt-mensaje sprite icon" href="/mensajes/nuevos/' + authorId + '" original-title="Mensaje"></a>',
                         '</div>',
                         '<div class="firma-pos">',
-                            '<a class="tooltip pt-firmas sprite icon" href="/id/' + authorId + '/firmas" title="Firmas"></a>',
+                            '<a class="tooltip pt-firmas sprite icon" href="/id/' + authorId + '/firmas" original-title="Firmas"></a>',
                         '</div>',
                         '<div class="info-pos">',
-                            '<a class="tooltip pt-info" title="Info" href="#" rel="' + authorId + '"><strong>+</strong></a>',
+                            '<a class="tooltip pt-info" original-title="Info" href="#" rel="' + authorId + '"><strong>+</strong></a>',
                         '</div>',
                     '</div>'].join(''));
                 $(this).append(enhancements);
+                $('.tooltip', enhancements).tipsy();
             });
             $('a.pt-info', posts).click(function() {
                 var userId = $(this).attr('rel');
@@ -56,6 +57,7 @@
                         ].join(''));
                 });
                 $(this).contents().unwrap();
+                $("div.tipsy").remove();
                 return false;
             });
         } 
