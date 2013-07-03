@@ -23,7 +23,7 @@
                 var online = $(this).find('dd.online').length > 0;
                 $(this).find('dd.online').remove();
                 var enhancements = $([
-                    '<div class="powertools">',
+                    '<div class="pt-author-enhancements">',
                         '<div class="online-pos">',
                             '<a class="tooltip pt-' + (online ? 'online' : 'offline') + ' sprite icon" href="/id/' + authorId + '" original-title="Perfil"></a>',
                         '</div>',
@@ -45,7 +45,7 @@
                 var authorDiv = $(this).parent().parent().parent();
                 getUserInfo(userId).then(function(info) {
                     authorDiv.append([
-                        '<dl class="userinfo">',
+                        '<dl class="pt-userinfo">',
                             '<dd><strong>' + info.personalInfo[0] + '</strong>' + (info.personalInfo[1] ? ' (' + info.personalInfo[1] + ')' : '') + '</dd>',
                             (info.personalInfo[2] ? '<dd>de ' + info.personalInfo[2] + '</dd>' : ''),
                             '<dd>' + (info.lastSeen == 'online' ? '' : 'visto hace ') + info.lastSeen + '</dd>',
@@ -71,6 +71,9 @@
                 'display: block;',
                 'outline: 0;',
                 'margin-top: 1px;',
+            '}',
+            '.pt-author-enhancements {',
+                'padding-left: 3px;',
             '}',
             '.pt-firmas {',
                 'background-position: 0 -58px;',
@@ -124,7 +127,7 @@
                 'margin-top: -4px;',
                 'font-size: 120%;',
             '}',
-            '.userinfo {',
+            '.pt-userinfo {',
                 'float: left;',
                 'font-size: 10px;',
                 'padding-top: 5px;',
