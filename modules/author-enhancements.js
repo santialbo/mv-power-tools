@@ -48,10 +48,10 @@
                             '<dd><strong>' + info.personalInfo[0] + '</strong>' + (info.personalInfo[1] ? ' (' + info.personalInfo[1] + ')' : '') + '</dd>',
                             (info.personalInfo[2] ? '<dd>de ' + info.personalInfo[2] + '</dd>' : ''),
                             '<dd>' + (info.lastSeen == 'online' ? '' : 'visto hace ') + info.lastSeen + '</dd>',
-                            '<dd>registro el ' + info.registered + '</dd>',
-                            '<dd>' + info.forumInfo[0] + ' posts</dd>',
-                            '<dd>' + info.forumInfo[1] + ' visitas</dd>',
-                            '<dd><a href="/id/' + userId + '/firmas">' + info.forumInfo[2] + ' firmas</a></dd>',
+                            '<dd>registro: ' + info.registered + '</dd>',
+                            '<dd>posts: ' + info.forumInfo[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '</dd>',
+                            '<dd>visitas: ' + info.forumInfo[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '</dd>',
+                            '<dd><a href="/id/' + userId + '/firmas">firmas: ' + info.forumInfo[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '</a></dd>',
                         '</dl>',
                         ].join(''));
                 });
