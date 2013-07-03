@@ -10,7 +10,9 @@ Infinite scrolling
 ------------------
 *Esta funcionalidad está en pruebas todavía*
 
-No hace falta que cambies de página. mv-power-tools cargará automáticamente las respuestas de la siguiente página cuando llegues al final de la actual.
+No hace falta que cambies de página. *mv-power-tools* cargará automáticamente las respuestas de la siguiente página cuando llegues al final de la actual.
+
+Además tampoco hará falta que refresques la página cuando hayan nuevas respuestas. Estas se incorporarán automáticamente al final de lá página (Es como si todos los hilos fueran live).
 
 Shortcuts
 ---------
