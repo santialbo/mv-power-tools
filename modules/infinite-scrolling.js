@@ -147,5 +147,29 @@
             e.detail.each(function(i, post) { configurePost(post); });
         });
 
+        // Automatically load new posts.
+        $('#moarnum').remove();
+        setInterval(function() {
+            var last = _.last(pages);
+            if (last.page < last.npages) return;
+            var nposts = (last.page - 1)*30 + last.posts.length;
+            var tid = $("#tid").val();
+            var token = $("#token").val();
+            $.get('/foro/moar.php?token=' + token + '&tid=' + tid + '&last=' + nposts).then(function(res) {
+                if (res.moar > 0) {
+                    getThreadPageInfo(THREAD_URL, last.page).then(function(info) {
+                        var newPosts = info.posts.slice(last.posts.length);
+                        appendPostsToPage(newPosts);
+                        $.merge(last.posts, newPosts);
+                        if (info.npages != last.npages) {
+                            last.npages = info.npages;
+                            updatePagination(page);
+                        }
+                    });
+                }
+            });
+
+        }, 30000);
+
     });
 })(jQuery, window.PowerTools);
