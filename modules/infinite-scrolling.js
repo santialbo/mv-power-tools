@@ -123,7 +123,7 @@
                     $sign.remove();
                     loading = false;
                 }).fail(function(){
-                    $sign.html('<strong>Error cargando respuestas.</strong> <a href="' + THREAD_URL + '/' + current  +'#aultimo">Recarga la página</a>');
+                    $sign.html('<strong>Error cargando respuestas.</strong> <a href="' + THREAD_URL + '/' + current  +'#aultimo">Recarga la página</a>').removeClass('alert-info');
                 });
             }
         });
