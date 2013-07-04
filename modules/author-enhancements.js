@@ -32,7 +32,7 @@
                             '<i class="icon-envelope-alt"></i>',
                         '</a>',
                         '<a class="tooltip pt-author-firma" href="/id/' + authorId + '/firmas" original-title="Firmas">',
-                            '<i class="icon-comments"></i>',
+                            '<i class="icon-comments-alt"></i>',
                         '</a>',
                         '<a class="tooltip pt-author-info" original-title="Info" href="#" rel="' + authorId + '">',
                             '<i class="icon-info-sign"></i>',
@@ -72,7 +72,7 @@
 
         var css = [
             '.pt-author-enhancements {',
-                'font-size: 140%;',
+                'font-size: 150%;',
                 'padding-left: 3px;',
             '}',
             '.pt-author-online, .pt-author-mensaje, .pt-author-firma, .pt-author-info {',
