@@ -39,6 +39,7 @@
                         '</a>',
                     '</div>'].join(''));
                 $(this).append(enhancements);
+                $('.pt-author-online', enhancements).click(function() { return false; });
                 $('.tooltip', enhancements).tipsy();
             });
             $('a.pt-author-info', posts).click(function() {
