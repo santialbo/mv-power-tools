@@ -1,3 +1,6 @@
+// Add Font-Awesome
+$('head').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">');
+
 window.PowerTools = {
     url: 'http://www.mediavida.com',
     version: '0',
