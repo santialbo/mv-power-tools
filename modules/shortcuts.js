@@ -17,6 +17,7 @@
         var shortcuts = {
             'p': BASE_URL + PROFILE_URL + PowerTools['user'],
             'a': BASE_URL + NOTIF_URL,
+            'n': BASE_URL + NOTIF_URL,
             'f': BASE_URL + FAVS_URL,
             'm': BASE_URL + PM_URL,
             's': BASE_URL + SPY_URL,
