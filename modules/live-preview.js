@@ -5,7 +5,7 @@
         
         var textarea = $('textarea#cuerpo');
         
-        $([ '<div id="div1" style="width: 620px; height: 100px; resize: vertical; overflow: hidden; margin-bottom: 10px; border: 1px;">',
+        $([ '<div style="width: 620px; height: 100px; resize: vertical; overflow: hidden; margin-bottom: 10px; border: 1px;">',
                 '<div class="odd" style="height: inherit; overflow: auto; padding: 10px;">',
                     '<div id="pt-live-preview"></div>',
                 '</div>',
@@ -14,8 +14,8 @@
 
         var updatePreview = function () {
             var cabecera = $('#cabecera');
-            var post = 'cabecera' + (cabecera.length ? cabecera.val() : '') +
-                '&cuerpo=' + $('#cuerpo').val() + '&token=' + $('#token').val() + '&fid=' + $('#fid').val() + '&tid=' + $('#tid').val();
+            var post = 'cabecera=' + (cabecera.length ? cabecera.val() : '') +
+                '&' + $('#cuerpo').serialize() + '&' + $('#token').serialize() + '&' + $('#fid').serialize() + '&' + $('#tid').serialize();
             $.post("/foro/acciones_preview.php", post).then(function(res) {
                 $('#pt-live-preview').html(JSON.parse(res).cuerpo);
             });
