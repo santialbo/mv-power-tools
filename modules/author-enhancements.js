@@ -22,7 +22,6 @@
                 if ($(this).find('a:first').length == 0) return;
                 var authorId = $(this).find('a:first').attr('href').match(/\/id\/(.*)/)[1];
                 var online = $(this).find('dd.online').length > 0;
-                $(this).find('dd.online').remove();
                 var enhancements = $([
                     '<div class="pt-author-enhancements">',
                         '<a class="pt-author-online' + (online ? ' pt-online' : '') + '" href="#" original-title="' + (online ? 'Online' : 'Offline') + '">',
@@ -100,6 +99,7 @@
         $('head').append('<style type="text/css">' + css + '</style>');
 
         enhanceAuthor($('.post:not(.postit,:last)'));
+        $('dd.online').remove();
 
         document.addEventListener('afterAddPosts', function(e) {
             enhanceAuthor(e.detail);
