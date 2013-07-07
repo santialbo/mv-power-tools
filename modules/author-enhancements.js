@@ -25,22 +25,22 @@
                 $(this).find('dd.online').remove();
                 var enhancements = $([
                     '<div class="pt-author-enhancements">',
-                        '<a class="tooltip pt-author-online' + (online ? ' pt-online' : '') + '" href="#" original-title="' + (online ? 'Online' : 'Offline') + '">',
+                        '<a class="pt-author-online' + (online ? ' pt-online' : '') + '" href="#" original-title="' + (online ? 'Online' : 'Offline') + '">',
                             '<i class="icon-user"></i>',
                         '</a>',
-                        '<a class="tooltip pt-author-mensaje" href="/mensajes/nuevos/' + authorId + '" original-title="Mensaje">',
+                        '<a class="pt-author-mensaje" href="/mensajes/nuevos/' + authorId + '" original-title="Mensaje">',
                             '<i class="icon-envelope-alt"></i>',
                         '</a>',
-                        '<a class="tooltip pt-author-firma" href="/id/' + authorId + '/firmas" original-title="Firmas">',
+                        '<a class="pt-author-firma" href="/id/' + authorId + '/firmas" original-title="Firmas">',
                             '<i class="icon-comments-alt"></i>',
                         '</a>',
-                        '<a class="tooltip pt-author-info" original-title="Info" href="#" rel="' + authorId + '">',
+                        '<a class="pt-author-info" original-title="Info" href="#" rel="' + authorId + '">',
                             '<i class="icon-info-sign"></i>',
                         '</a>',
                     '</div>'].join(''));
                 $(this).append(enhancements);
                 $('.pt-author-online', enhancements).click(function() { return false; });
-                $('.tooltip', enhancements).tipsy();
+                $('a', enhancements).tipsy();
             });
             $('a.pt-author-info', posts).click(function() {
                 var userId = $(this).attr('rel');
