@@ -98,10 +98,11 @@
         ].join('');
         $('head').append('<style type="text/css">' + css + '</style>');
 
+        $('dd.online').hide();
         enhanceAuthor($('.post:not(.postit,:last)'));
-        $('dd.online').remove();
 
         document.addEventListener('afterAddPosts', function(e) {
+            $('dd.online', e.detail).hide();
             enhanceAuthor(e.detail);
         });
     });
