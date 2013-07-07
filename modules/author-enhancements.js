@@ -56,7 +56,7 @@
                         authorDiv.append([
                             '<dl class="pt-userinfo">',
                                 '<dd><strong>' + info.personalInfo[0] + '</strong>' + (info.personalInfo[1] ? ' (' + info.personalInfo[1] + ')' : '') + '</dd>',
-                                (info.personalInfo[2] ? '<dd>de ' + info.personalInfo[2] + '</dd>' : ''),
+                                (info.personalInfo[2] ? '<dd>en ' + info.personalInfo[2] + '</dd>' : ''),
                                 (info.lastSeen == 'online' ? '' : '<dd>visto hace ' + info.lastSeen + '</dd>'),
                                 '<dd>registro: ' + info.registered + '</dd>',
                                 '<dd>posts: ' + thousands(info.forumInfo[0]) + '</dd>',
