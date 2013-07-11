@@ -1,5 +1,5 @@
 # Module definitions
-MODULE_FILES = header.js main.js shortcuts.js author-enhancements.js infinite-scrolling.js extended-reply-form.js live-preview.js
+MODULE_FILES = main.js # shortcuts.js author-enhancements.js infinite-scrolling.js extended-reply-form.js live-preview.js
 MODULE_DIR = ./modules/
 MODULES = $(addprefix $(MODULE_DIR), $(MODULE_FILES))
 
@@ -17,9 +17,15 @@ FIREFOX_OUT = Firefox/resources/mv-power-tools/data/
 CHROME_OUT = Chrome/
 
 # Rules
-.PHONY=all dev
+.PHONY=all dev clean
 
 all: dev
+
+clean:
+	rm $(MODULES)
+
+%.js: %.coffee
+	coffee -c $<
 
 dev: $(MODULES)
 	uglifyjs $(MODULES) $(DEV_OPTIONS)
@@ -31,3 +37,4 @@ dev: $(MODULES)
 
 $(BUILD_DIR)/$(FILE_OUT): $(MODULES)
 	uglifyjs $(MODULES) $(OPTIONS)
+
