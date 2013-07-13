@@ -37,6 +37,7 @@ class PowerTools
     set: (key, object) -> localStorage.setItem 'pt-' + key, JSON.stringify object
     get: (key) -> JSON.parse localStorage.getItem('pt-' + key)
     exists: (key) -> localStorage.getItem('pt-' + key) != null
+    remove: (key) -> localStorage.removeItem('pt-' + key)
 
   constructor: () ->
     if not @options.exists 'active-modules'
@@ -92,15 +93,12 @@ class Module
     @initialized = false
     @init = if _init then () -> @initialized = true; _init()
     @on = if _on then () ->
-      if not @initialized
-        @init()
+      if not @initialized then @init()
       @active = true
       _on()
-      @toggle()
     @off = if _off then () ->
       @active = false
       _off()
-      @toggle()
 
   canRun: () ->
     (@active or @general) and _.any(@scopes, (f) -> f())
