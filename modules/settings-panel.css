@@ -1,0 +1,88 @@
+/* Settings panel */
+
+#wrap{
+    margin: 0 auto;
+    width: 600px;
+    padding: 40px 0;
+}
+
+/* modal wrapper */
+.pt-modal-wrapper {
+    display: none;
+    position: absolute;
+    top: 0;
+    height:100%;
+    width:100%;
+    z-index: 9999;
+    background: gray;
+    background: rgba(0, 0, 0, .8);
+    filter: alpha(opacity=50);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+}
+#pt-settings:target {
+    display: block;
+}
+
+/* modal inner */
+.pt-modal{
+    width: 460px;
+    height: auto;
+    visibility: visible;
+    display: block;
+    /**/
+    z-index: 6000;
+    padding: 20px;
+    position: relative;
+    margin: 90px auto 40px;
+    overflow: visible;
+    background-color: white;
+    border: 1px solid #CCC	9;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, .4),inset 0 1px 0 rgba(255, 255, 255, .5);
+    -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, .4),inset 0 1px 0 rgba(255, 255, 255, .5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .4),inset 0 1px 0 rgba(255, 255, 255, .5);
+}
+
+/* modal close button */
+.pt-modal .pt-settings-panel-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: transparent;
+    font-size: 0px;
+}
+.pt-modal .pt-modal-close:focus {
+    outline: none;
+}
+.pt-modal .pt-modal-close:after {
+    content: "\f00d";
+    font-family: FontAwesome;
+    font-size: 14px;
+    display: block;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 10px;
+    height: 5px;
+    padding: 5px 6px 12px 6px;
+    text-decoration: none;
+    text-shadow: none;
+    text-align: center;
+    background: black;
+    color: white;
+    border: 2px solid white;
+    -moz-border-radius: 20px;
+    border-radius: 40px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    font-size: 12px;
+}
+.pt-modal .pt-modal-close:focus:after {
+    outline: none;
+}

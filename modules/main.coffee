@@ -13,7 +13,8 @@
 // ==/UserScript==
 ###
 
-$('head').append '<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">'
+$('head').append '<link href="//dl.dropboxusercontent.com/u/1007985/mv-power-tools.css" rel="stylesheet">'
+
 
 class PowerTools
   version: 1
@@ -22,21 +23,22 @@ class PowerTools
   settings: {}
   scopes:
     all:       () -> document.URL.match /./
-    portada:   () -> document.URL.match /mediavida\.com(\/)?(p\d+)$/
-    favorites: () -> document.URL.match /\/foro\/favoritos$/
-    spy:       () -> document.URL.match /\/foro\/spy$/
-    forum:     () -> document.URL.match /\/foro\/((?!(spy|favoritos|\/|\?)).)+(\/p\d+)?$/
-    thread:    () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+(\/\d+)?(#\d+)?$/
-    compose:   () -> document.URL.match /\/foro\/post\.php\?fid=\d+$/
-    reply:     () -> document.URL.match /\/foro\/post\.php\?tid=\d+$/
-    profile:   () -> document.URL.match /\/id\/[^\/]+$/
+    loggedIn:  () -> $('li.logout').length > 0
+    portada:   () -> document.URL.match /mediavida\.com(\/)?(p\d+)(#.*)?$/
+    favorites: () -> document.URL.match /\/foro\/favoritos(#.*)?$/
+    spy:       () -> document.URL.match /\/foro\/spy(#.*)?$/
+    forum:     () -> document.URL.match /\/foro\/((?!(spy|favoritos|\/|\?)).)+(\/p\d+)?(#.*)?$/
+    thread:    () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+(\/\d+)?(#.*)?$/
+    compose:   () -> document.URL.match /\/foro\/post\.php\?fid=\d+(#.*)?$/
+    reply:     () -> document.URL.match /\/foro\/post\.php\?tid=\d+(#.*)?$/
+    profile:   () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
 
   register: (module) ->
     @modules.push module
 
   init: () =>
     _.each @modules, (module) ->
-      if module.active and _.any(module.scopes, (f) -> f())
+      if (module.active or module.general) and _.any(module.scopes, (f) -> f())
         module.init()
         module.on()
   
@@ -57,19 +59,20 @@ class PowerTools
 
 
 class Module
-  constructor: (@title, @description, @scopes, @init, _on, _off) ->
+  constructor: (@title, @description, @scopes, @general, @init, _on, _off) ->
     ###
     Creates a new module.
       @title: Title/name of the module.
       @description: Brief description of the module.
       @scopes: list of functions that will run the module if any returns true.
+      @general: if true, this module runs always (e.g settings panel).
       @init: Function that initializes the module. Runs only once.
       _on: Function that will turn on the script. Runs every time the script is activated.
       _off: Function that will turn off the script. Runs every time the script is deactivated.
     ###
     @active = true
-    @on = () -> @active = true; _on()
-    @off = () -> @active = false; _off()
+    @on = if _on then () -> @active = true; _on()
+    @off = if _off then () -> @active = false; _off()
 
 PT = new PowerTools
 $(document).ready PT.init

@@ -1,7 +1,7 @@
 PT.register do ($=jQuery) ->
   name =        "Formulario extendido"
   description = "Nueva barra de botones en el formulario de edición."
-  scopes =      [PT.scopes.thread, PT.scopes.reply, PT.scopes.compose]
+  scopes =      [() -> PT.scopes.loggedIn() and (PT.scopes.thread() or PT.scopes.reply() or PT.scopes.compose())]
 
   textarea = $('textarea#cuerpo')
   oldToolbar = $('#btsmile').parent()
@@ -97,4 +97,4 @@ PT.register do ($=jQuery) ->
     oldToolbar.show()
     toolbar.hide()
 
-  new Module(name, description, scopes, init, _on, _off)
+  new Module(name, description, scopes, false, init, _on, _off)
