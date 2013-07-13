@@ -1,7 +1,8 @@
 # Module definitions
-MODULE_FILES = main.coffee extended-reply-form.coffee # shortcuts.js author-enhancements.js infinite-scrolling.js live-preview.js
+MODULE_FILES = main settings-panel extended-reply-form # shortcuts.js author-enhancements.js infinite-scrolling.js live-preview.js
+EXTENSION = .coffee
 MODULE_DIR = ./modules/
-MODULES = $(addprefix $(MODULE_DIR), $(MODULE_FILES))
+MODULES = $(addsuffix $(EXTENSION), $(addprefix $(MODULE_DIR), $(MODULE_FILES)))
 
 # Build options
 FILE_OUT = mv-power-tools.user.js
@@ -14,9 +15,12 @@ FIREFOX_OUT = Firefox/resources/mv-power-tools/data/
 CHROME_OUT = Chrome/
 
 # Rules
-.PHONY=all dev
+.PHONY=all dev watch
 
 all: dev
+
+watch: $(MODULES)
+	coffee --watch $(DEV_OPTIONS) $(MODULES)
 
 dev: $(MODULES)
 	coffee $(DEV_OPTIONS) $(MODULES) 
