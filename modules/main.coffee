@@ -13,6 +13,8 @@
 // ==/UserScript==
 ###
 
+$('head').append '<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">'
+
 class PowerTools
   version: 1
   modules: []
@@ -70,9 +72,4 @@ class Module
     @off = () -> @active = false; _off()
 
 PT = new PowerTools
-$(PT.init)
-
-scopes = [PT.scopes.forum]
-module = new Module('modulo', 'desc', scopes, (() -> console.log 'init'), (() -> console.log 'on'), (() -> console.log 'off'))
-
-PT.register module
+$(document).ready PT.init
