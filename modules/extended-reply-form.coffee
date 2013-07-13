@@ -1,6 +1,6 @@
 PT.register do ($=jQuery) ->
   name =        "Formulario extendido"
-  description = "Nueva barra de botones en el formulario de edición"
+  description = "Nueva barra de botones en el formulario de edición."
   scopes =      [PT.scopes.thread, PT.scopes.reply, PT.scopes.compose]
 
   textarea = $('textarea#cuerpo')
