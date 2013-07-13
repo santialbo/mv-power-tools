@@ -1,7 +1,7 @@
 PT.register do ($=jQuery) ->
   name =        'author-enhancements'
   title =       "Información de usuario"
-  description = "Muestra accesos directos varios debajo del avatar."
+  description = "Muestra accesos directos varios y botón de información debajo del avatar."
   scopes =      [PT.scopes.thread]
 
   getUserInfo = (id) ->
