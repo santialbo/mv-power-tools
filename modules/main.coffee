@@ -33,7 +33,23 @@ class PowerTools
     reply:     () -> document.URL.match /\/foro\/post\.php\?tid=\d+(#.*)?$/
     profile:   () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
 
+  options:
+    set: (key, object) -> localStorage.setItem 'pt-' + key, JSON.stringify object
+    get: (key) -> JSON.parse localStorage.getItem('pt-' + key)
+    exists: (key) -> localStorage.getItem('pt-' + key) != null
+
+  constructor: () ->
+    if not @options.exists 'active-modules'
+      @options.set 'active-modules', {}
+
   register: (module) ->
+    activeModules = @options.get 'active-modules'
+    if module.name of activeModules
+      module.active = activeModules[module.name]
+    else
+      console.log 'bye'
+      activeModules[module.name] = module.active
+      @options.set 'active-modules', activeModules
     @modules.push module
 
   init: () =>
@@ -42,7 +58,6 @@ class PowerTools
         module.on()
 
   turnOn: (module) ->
-
   
   bind: (event, callback) ->
     ###
@@ -81,11 +96,19 @@ class Module
         @init()
       @active = true
       _on()
-      console.log 'module ' + @name + ' on'
-    @off = if _off then () -> @active = false; _off(); console.log 'module ' + @name + ' off'
+      @toggle()
+    @off = if _off then () ->
+      @active = false
+      _off()
+      @toggle()
 
   canRun: () ->
     (@active or @general) and _.any(@scopes, (f) -> f())
+
+  toggle: () ->
+    activeModules = PT.options.get 'active-modules'
+    activeModules[@name] = not activeModules[@name]
+    PT.options.set 'active-modules', activeModules
 
 
 PT = new PowerTools
