@@ -22,16 +22,17 @@ class PowerTools
   events: {}
   settings: {}
   scopes:
-    all:       () -> document.URL.match /./
-    loggedIn:  () -> $('li.logout').length > 0
-    portada:   () -> document.URL.match /mediavida\.com(\/)?(p\d+)(#.*)?$/
-    favorites: () -> document.URL.match /\/foro\/favoritos(#.*)?$/
-    spy:       () -> document.URL.match /\/foro\/spy(#.*)?$/
-    forum:     () -> document.URL.match /\/foro\/((?!(spy|favoritos|\/|\?)).)+(\/p\d+)?(#.*)?$/
-    thread:    () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+(\/\d+)?(#.*)?$/
-    compose:   () -> document.URL.match /\/foro\/post\.php\?fid=\d+(#.*)?$/
-    reply:     () -> document.URL.match /\/foro\/post\.php\?tid=\d+(#.*)?$/
-    profile:   () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
+    all:        () -> document.URL.match /./
+    loggedIn:   () -> $('li.logout').length > 0
+    main:       () -> document.URL.match /mediavida\.com(\/)?(p\d+)(#.*)?$/
+    favorites:  () -> document.URL.match /\/foro\/favoritos(#.*)?$/
+    spy:        () -> document.URL.match /\/foro\/spy(#.*)?$/
+    forum:      () -> document.URL.match /\/foro\/((?!(spy|favoritos|\/|\?)).)+(\/p\d+)?(#.*)?$/
+    thread:     () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+(\/\d+)?(#.*)?$/
+    threadLive: () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+\/live(#.*)?$/
+    compose:    () -> document.URL.match /\/foro\/post\.php\?fid=\d+(#.*)?$/
+    reply:      () -> document.URL.match /\/foro\/post\.php\?tid=\d+(#.*)?$/
+    profile:    () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
 
   options:
     set: (key, object) -> localStorage.setItem 'pt-' + key, JSON.stringify object
