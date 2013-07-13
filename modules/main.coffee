@@ -38,9 +38,11 @@ class PowerTools
 
   init: () =>
     _.each @modules, (module) ->
-      if (module.active or module.general) and _.any(module.scopes, (f) -> f())
-        module.init()
+      if module.canRun()
         module.on()
+
+  turnOn: (module) ->
+
   
   bind: (event, callback) ->
     ###
@@ -59,20 +61,32 @@ class PowerTools
 
 
 class Module
-  constructor: (@title, @description, @scopes, @general, @init, _on, _off) ->
+  constructor: (@name, @title, @description, @scopes, @general, _init, _on, _off) ->
     ###
     Creates a new module.
-      @title: Title/name of the module.
+      @name: Identifier of the module.
+      @title: Title of the module.
       @description: Brief description of the module.
       @scopes: list of functions that will run the module if any returns true.
       @general: if true, this module runs always (e.g settings panel).
-      @init: Function that initializes the module. Runs only once.
+      _init: Function that initializes the module. Runs only once.
       _on: Function that will turn on the script. Runs every time the script is activated.
       _off: Function that will turn off the script. Runs every time the script is deactivated.
     ###
     @active = true
-    @on = if _on then () -> @active = true; _on()
-    @off = if _off then () -> @active = false; _off()
+    @initialized = false
+    @init = if _init then () -> @initialized = true; _init()
+    @on = if _on then () ->
+      if not @initialized
+        @init()
+      @active = true
+      _on()
+      console.log 'module ' + @name + ' on'
+    @off = if _off then () -> @active = false; _off(); console.log 'module ' + @name + ' off'
+
+  canRun: () ->
+    (@active or @general) and _.any(@scopes, (f) -> f())
+
 
 PT = new PowerTools
 $(document).ready PT.init

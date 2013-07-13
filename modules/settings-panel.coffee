@@ -1,5 +1,6 @@
 PT.register do ($=jQuery) ->
-  name =        "Ajustes"
+  name =        'settings-panel'
+  title =       "Ajustes"
   description = "Panel de control para activar y desactivar módulos."
   scopes =      [PT.scopes.all]
 
@@ -12,24 +13,44 @@ PT.register do ($=jQuery) ->
   settingsPanel = $("""
     <div class="pt-modal-wrapper" id="pt-settings">
       <div class="pt-modal">
-        <h2>Example Content Heading</h2>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-        nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat 
-        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation 
-        ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-        <a class="pt-modal-close" href="#" title="Close">Close</a>
+        <h2>Panel de control</h2>
+        <div id="pt-module-settings">
+        </div>
+        <a class="pt-modal-close" href="#" title="Close"></a>
       </div>
     </div>
   """)
-    
+
   init = () ->
+    # Insert button and modal window
+    settingsPanel.appendTo $('body')
     menuItems = $('#userinfo').children()
     if menuItems.length == 5
       settingsButton.insertBefore(_.last menuItems)
     else
       settingsButton.insertAfter(_.last menuItems)
     
-    settingsPanel.appendTo $('body')
+    _.each PT.modules, (module) ->
+      if module.general then return
+      settingsRow = $("""
+      <div class="pt-settings-row">
+        <span class="pt-settings-module-name">""" + module.title + """:</span>
+        <span class="pt-settings-module-description">""" + module.description + """</span>
+        <div class="togglebox pull-right">
+          <input type="checkbox" id="pt-settings-""" + module.name + """">
+          <label for="pt-settings-""" + module.name + """"><b></b></label>
+        </div>
+      </div>
+      """)
+      $('#pt-settings-' + module.name, settingsRow)
+        .prop('checked', not module.active)
+        .change () ->
+          if $(this).is ':checked'
+            module.off()
+          else
+            module.on()
+
+      settingsRow.appendTo $('#pt-module-settings')
 
   _on =  () ->
     settingsButton.show()
@@ -37,4 +58,4 @@ PT.register do ($=jQuery) ->
   _off = () ->
     alert "This module can't be turned off"
 
-  new Module(name, description, scopes, true, init, _on, _off)
+  new Module(name, title, description, scopes, true, init, _on, _off)

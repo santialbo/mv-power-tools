@@ -1,5 +1,6 @@
 PT.register do ($=jQuery) ->
-  name =        "Formulario extendido"
+  name =        'extended-reply-form'
+  title =       "Formulario extendido"
   description = "Nueva barra de botones en el formulario de edición."
   scopes =      [() -> PT.scopes.loggedIn() and (PT.scopes.thread() or PT.scopes.reply() or PT.scopes.compose())]
 
@@ -97,4 +98,4 @@ PT.register do ($=jQuery) ->
     oldToolbar.show()
     toolbar.hide()
 
-  new Module(name, description, scopes, false, init, _on, _off)
+  new Module(name, title, description, scopes, false, init, _on, _off)
