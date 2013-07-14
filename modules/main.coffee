@@ -74,7 +74,7 @@ class PowerTools
     ###
     Raises the specified event
     ###
-    _.each events[event], (f) -> f(e)
+    _.each @events[event], (f) -> f(e)
 
 
 class Module
