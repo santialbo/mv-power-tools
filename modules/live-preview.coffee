@@ -2,7 +2,7 @@ PT.register do ($=jQuery) ->
   name =        'live-preview'
   title =       "Vista previa automática"
   description = "Muestra al momento una vista previa del mensaje que estés escribiendo."
-  scopes =      [PT.scopes.thread, PT.scopes.reply, PT.scopes.compose]
+  scopes =      [() -> PT.scopes.loggedIn() and (PT.scopes.thread() or PT.scopes.reply() or PT.scopes.compose())]
 
   textarea = $('textarea#cuerpo')
   
