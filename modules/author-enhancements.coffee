@@ -26,7 +26,7 @@ PT.register do ($=jQuery) ->
           <a class="pt-author-status" href="javascript:;" original-title="Offline">
             <i class="icon-user"></i>
           </a>
-          <a class="pt-author-mensaje" href="/mensajes/nuevos/""" + id + """" original-title="Mensaje">
+          <a class="pt-author-mensaje" href="/mensajes/nuevo/""" + id + """" original-title="Mensaje">
             <i class="icon-envelope-alt"></i>
           </a>
           <a class="pt-author-firma" href="/id/""" + id + """/firmas" original-title="Firmas">
