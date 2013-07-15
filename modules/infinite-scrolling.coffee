@@ -32,7 +32,7 @@ PT.register do ($=jQuery) ->
   updatePagination = (url, page) ->
     numPages = _.last(pages).numPages
     pageLink = (page, numPages=page) ->
-      link = $('<a href="' + url + '/' + p + '">' + p + '</a>')
+      link = $('<a href="' + url + '/' + page + '">' + page + '</a>')
       if page = numPages then link.addClass 'last'
       link
     paginations = [$('#scrollpages'), $('strong.paginas')]
@@ -40,12 +40,21 @@ PT.register do ($=jQuery) ->
     paginations[0].children().slice(1).remove()
     paginations[1].children().remove()
     _.each paginations, (pagination) ->
+      # first page link
       pagination.append pageLink(1, numPages) if page >= 4
+      # ...
       pagination.append '<span>...</span>' if page > 4
-      pagination.append pageLink(p, numPages) for p in [(Math.max 1, page - 2)..(page - 1)]
+      # 2 pages before current
+      ps = [(Math.max 1, page - 2)..(page - 1)]
+      if ps[0] <= _.last ps then pagination.append pageLink(p, numPages) for p in ps
+      # current
       pagination.append '<em>' + page + '</em>'
-      pagination.append pageLink(p, numPages) for p in [(page + 1)..(Math.min numPages, page + 2)]
+      #2 pages after current
+      ps = [(page + 1)..(Math.min numPages, page + 2)]
+      if ps[0] <= _.last ps then pagination.append pageLink(p, numPages) for p in ps
+      # ...
       pagination.append '<span>...</span>' if page < numPages - 3
+      # last page
       pagination.append pageLink(numPages).addClass 'last' if page <= numPages - 3
 
   loadNextPage = () =>
@@ -67,6 +76,15 @@ PT.register do ($=jQuery) ->
         .fail () ->
           sign.html('<strong>Error cargando respuestas.</strong> <a href="' + url + '/' + currentPage +'#aultimo">Recarga la página</a>').removeClass('alert-info')
 
+  checkCurrentPage = () =>
+    scroll = $(window).scrollTop() + $(window).height()
+    for page in pages
+      if page.posts.first().offset().top < scroll then current = page.page else break
+    console.log
+    if current != currentPage
+        currentPage = current
+        updatePagination url, currentPage
+
   init = () ->
     loading = false
     url = /.*\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0]
@@ -75,8 +93,10 @@ PT.register do ($=jQuery) ->
 
   _on =  () ->
     $(window).bind 'scroll', loadNextPage
+    $(window).bind 'scroll', checkCurrentPage
     
   _off = () ->
     $(window).unbind 'scroll', loadNextPage
+    $(window).unbind 'scroll', checkCurrentPage
 
   new Module(name, title, description, scopes, false, init, _on, _off)
