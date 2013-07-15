@@ -66,9 +66,12 @@ class PowerTools
     Bind event to given callback
     ###
     if @events[event]
-      @events[event] = [callback]
-    else
       @events[event].push callback
+    else
+      @events[event] = [callback]
+
+  unbind: (event, callback) ->
+    @events.splice @events.indexOf(callback), 1
   
   raise: (event, e) ->
     ###
