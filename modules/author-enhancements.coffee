@@ -73,16 +73,20 @@ PT.register do ($=jQuery) ->
         false
 
       $('a', enhancements).tipsy()
+  
+  enhanceAuthorEvent = (e) -> enhanceAuthor e.posts
 
   init = () ->
 
   _on =  () ->
     $('dd.online').hide()
     enhanceAuthor $('.post:not(.postit,:last)')
+    PT.bind 'afterAddPosts', enhanceAuthorEvent
 
   _off = () ->
     $('dd.online').show()
     $('.pt-author-enhancements').remove()
     $('.pt-author-userinfo').remove()
+    PT.unbind 'afterAddPosts', enhanceAuthorEvent
 
   new Module(name, title, description, scopes, false, init, _on, _off)
