@@ -71,7 +71,7 @@ class PowerTools
       @events[event] = [callback]
 
   unbind: (event, callback) ->
-    @events.splice @events.indexOf(callback), 1
+    @events[event].splice @events[event].indexOf(callback), 1
   
   raise: (event, e) ->
     ###

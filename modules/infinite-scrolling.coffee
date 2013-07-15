@@ -40,22 +40,29 @@ PT.register do ($=jQuery) ->
     paginations[0].children().slice(1).remove()
     paginations[1].children().remove()
     _.each paginations, (pagination) ->
-      # first page link
-      pagination.append pageLink(1, numPages) if page >= 4
-      # ...
-      pagination.append '<span>...</span>' if page > 4
-      # 2 pages before current
-      ps = [(Math.max 1, page - 2)..(page - 1)]
-      if ps[0] <= _.last ps then pagination.append pageLink(p, numPages) for p in ps
-      # current
-      pagination.append '<em>' + page + '</em>'
-      #2 pages after current
-      ps = [(page + 1)..(Math.min numPages, page + 2)]
-      if ps[0] <= _.last ps then pagination.append pageLink(p, numPages) for p in ps
-      # ...
-      pagination.append '<span>...</span>' if page < numPages - 3
-      # last page
-      pagination.append pageLink(numPages).addClass 'last' if page <= numPages - 3
+      if numPages <= 10
+        for p in [1..numPages]
+          if p == page
+            pagination.append '<em>' + page + '</em>'
+          else
+            pagination.append pageLink(p, numPages)
+      else
+        # first page link
+        pagination.append pageLink(1, numPages) if page >= 4
+        # ...
+        pagination.append '<span>...</span>' if page > 4
+        # 2 pages before current
+        ps = [(Math.max 1, page - 2)..(Math.min numPages, page + 2)]
+        if ps[0] <= _.last ps
+          for p in ps
+            if p == page
+              pagination.append '<em>' + page + '</em>'
+            else
+              pagination.append pageLink(p, numPages)
+        # ...
+        pagination.append '<span>...</span>' if page < numPages - 3
+        # last page
+        pagination.append pageLink(numPages).addClass 'last' if page <= numPages - 3
 
   loadNextPage = () =>
     if loading then return
@@ -85,18 +92,55 @@ PT.register do ($=jQuery) ->
         currentPage = current
         updatePagination url, currentPage
 
+  configurePosts = (e) ->
+    posts = e.posts
+    # show +1/report on moouseover
+    posts
+      .mouseenter(() -> $('.post_hide', $(this)).show())
+      .mouseleave(() -> $('.post_hide', $(this)).hide())
+    # enables +1
+    $('.masmola', posts).click () ->
+      counter = $(this).parent().parent().prev().find(".mola")
+      pid = $(this).attr('rel')
+      $.post('/foro/post_mola.php', {
+        token: $("#token").val()
+        tid: $("#tid").val()
+        num: pid
+      })
+        .then (res) ->
+          if (res == '1') counter.text(parseInt(counter.text()) + 1).fadeIn()
+          else if res == '-1' then alert 'Ya has votado este post'
+          else if res == '-2' then alert 'No puedes votar más posts hoy'
+          else if res == '-3' then alert 'Regístrate para votar posts'
+          else if res == '-4' then alert 'No puedes votar este post'
+        .fail () -> alert 'Se ha producido un error, inténtalo más tarde'
+      false
+    # click on #XX for quoting
+    $('.qn', posts).click () ->
+      pid = $(this).attr('rel')
+      textarea = $('#cuerpo')
+      $('#postform').show()
+      textarea.focus()
+      textarea.val(textarea.val() + '#' + pid + ' ')
+      $('html, body').animate { scrollTop: $(document).height() }, 'fast'
+      false
+
   init = () ->
-    loading = false
     url = /.*\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0]
-    pages = [getInfoFromDocument document]
-    currentPage = parseInt $('#pagina').val()
 
   _on =  () ->
+    pages = [getInfoFromDocument document]
+    currentPage = parseInt $('#pagina').val()
+    loading = false
     $(window).bind 'scroll', loadNextPage
     $(window).bind 'scroll', checkCurrentPage
+    PT.bind 'afterAddPosts', configurePosts
     
   _off = () ->
     $(window).unbind 'scroll', loadNextPage
     $(window).unbind 'scroll', checkCurrentPage
+    PT.unbind 'afterAddPosts', configurePosts
+    updatePagination url, pages[0].page
+    _.each _.rest(pages), (page) -> page.posts.remove()
 
   new Module(name, title, description, scopes, false, init, _on, _off)
