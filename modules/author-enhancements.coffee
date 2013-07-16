@@ -18,6 +18,7 @@ PT.register do ($=jQuery) ->
       info
 
   enhanceAuthor = (posts) ->
+    $('dd.online', posts).hide()
     posts.find('.autor').each (i, divAuthor) ->
       if $(divAuthor).find('a:first').length == 0 then return
       id = $(divAuthor).find('a:first').attr('href').match(/\/id\/(.*)/)[1]
@@ -79,7 +80,6 @@ PT.register do ($=jQuery) ->
   init = () ->
 
   _on =  () ->
-    $('dd.online').hide()
     enhanceAuthor $('.post:not(.postit,:last)')
     PT.bind 'afterAddPosts', enhanceAuthorEvent
 
