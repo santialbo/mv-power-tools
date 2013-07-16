@@ -4,7 +4,7 @@ PT.register do ($=jQuery) ->
   description = "Carga las siguientes páginas a medida que llegas al final de la actual."
   scopes =      [PT.scopes.thread]
   
-  url = loading = pages = currentPage = null
+  url = loading = pages = currentPage = moarnum = moarInterval = null
 
   getInfoFromDocument = (doc) ->
     page = parseInt $('#pagina', doc).val()
@@ -125,6 +125,31 @@ PT.register do ($=jQuery) ->
       $('html, body').animate { scrollTop: $(document).height() }, 'fast'
       false
 
+  moar = () =>
+    last = _.last(pages)
+    if last.page < last.numPages then return
+    nposts = (last.page - 1)*30 + last.posts.length
+    tid = $("#tid").val()
+    token = $("#token").val()
+    $.get('/foro/moar.php?token=' + token + '&tid=' + tid + '&last=' + nposts)
+      .then (res) ->
+        if res.moar > 0
+          getThreadPageInfo(url, last.page)
+            .then (info) ->
+              newPosts = info.posts.slice(last.posts.length)
+              appendPostsToPage newPosts
+              $.merge last.posts, newPosts
+              if info.numPages != last.numPages
+                last.numPages = info.numPages
+                updatePagination url, page
+
+  updateMoar = () ->
+    last = _.last(pages)
+    if last.page < last.numPages then return
+    nposts = (last.page - 1)*30 + last.posts.length
+    moarnum.val nposts
+
+
   init = () ->
     url = /.*\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0]
 
@@ -135,6 +160,9 @@ PT.register do ($=jQuery) ->
     $(window).bind 'scroll', loadNextPage
     $(window).bind 'scroll', checkCurrentPage
     PT.bind 'afterAddPosts', configurePosts
+    moarInterval = setInterval moar, 10000
+    moarnum = $('#moarnum').detach()
+    $('#moarload').parent().remove()
     
   _off = () ->
     $(window).unbind 'scroll', loadNextPage
@@ -142,5 +170,8 @@ PT.register do ($=jQuery) ->
     PT.unbind 'afterAddPosts', configurePosts
     updatePagination url, pages[0].page
     _.each _.rest(pages), (page) -> page.posts.remove()
+    clearInterval moarInterval
+    updateMoar()
+    moarnum.insertAfter $('#token')
 
   new Module(name, title, description, scopes, false, init, _on, _off)
