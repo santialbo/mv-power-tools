@@ -3,6 +3,11 @@ mv-power-tools
 
 Enhancements userscript for [mediavida.com](http://www.mediavida.com)
 
+Building
+--------
+Running `make` will create `mv-power-tools.user.js` and `mv-power-tools.css` in the `debug` folder.
+
+You can host your own css file in a server and change the url at the top of the `main.coffee` file.
 
 Contribute
 ----------
