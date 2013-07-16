@@ -1,0 +1,14 @@
+#pt-live-preview-outer {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  border: 1px;
+  resize: vertical;
+  overflow: hidden;
+}
+
+#pt-live-preview-middle {
+  background-color: rgb(236, 238, 233);
+  height: inherit;
+  overflow: auto;
+}

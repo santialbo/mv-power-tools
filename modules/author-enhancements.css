@@ -1,0 +1,29 @@
+.pt-author-enhancements {
+  font-size: 150%;
+  width: 100%;
+}
+
+.pt-author-mensaje,
+.pt-author-firma,
+.pt-author-info {
+  color: grey;
+}
+
+.pt-author-mensaje:hover,
+.pt-author-firma:hover,
+.pt-author-info:hover {
+  color: rgb(239, 80, 0);
+}
+
+.pt-author-status {
+  color: rgb(128, 0, 0);
+}
+
+.pt-author-online {
+  color: green
+}
+
+.pt-author-userinfo {
+  float: left;
+  font-size: 10px;
+}

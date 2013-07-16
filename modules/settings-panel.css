@@ -1,0 +1,205 @@
+/* Settings panel */
+#pt-settings .pt-modal {
+  width: 700px;
+}
+
+#pt-settings h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(239, 80, 0);
+}
+
+#pt-module-settings {
+  padding-top: 5px;
+}
+
+#pt-module-settings .pt-settings-row {
+  height: 22px;
+  border-bottom: 1px solid lightgray;
+  padding-top: 10px;
+  padding-bottom: 2px;
+}
+
+#pt-module-settings .pt-settings-row:last-child {
+  border-bottom: none;
+}
+
+.pt-settings-row .pt-settings-module-name {
+  font-weight: bold;
+  color: rgb(239, 80, 0);
+}
+
+.pt-settings-row .togglebox {
+  margin-top: -6px;
+}
+
+/* modal wrapper */
+.pt-modal-wrapper {
+  display: none;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+  background: gray;
+  background: rgba(0, 0, 0, .8);
+  filter: alpha(opacity=50);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+}
+#pt-settings:target {
+  display: block;
+}
+
+/* modal inner */
+.pt-modal{
+  width: 460px;
+  height: auto;
+  visibility: visible;
+  display: block;
+  /**/
+  z-index: 6000;
+  padding: 20px;
+  position: relative;
+  margin: 90px auto 40px;
+  overflow: visible;
+  background-color: white;
+  border: 1px solid #CCC  9;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, .4),inset 0 1px 0 rgba(255, 255, 255, .5);
+  -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, .4),inset 0 1px 0 rgba(255, 255, 255, .5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .4),inset 0 1px 0 rgba(255, 255, 255, .5);
+}
+
+/* modal close button */
+.pt-modal .pt-settings-panel-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: transparent;
+  font-size: 0px;
+}
+.pt-modal .pt-modal-close:focus {
+  outline: none;
+}
+.pt-modal .pt-modal-close:after {
+  content: "\f00d";
+  font-family: FontAwesome;
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  width: 10px;
+  height: 5px;
+  padding: 4px 6px 12px 6px;
+  text-decoration: none;
+  text-shadow: none;
+  text-align: center;
+  background: black;
+  color: white;
+  border: 2px solid white;
+  -moz-border-radius: 20px;
+  border-radius: 40px;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  font-size: 12px;
+}
+.pt-modal .pt-modal-close:focus:after {
+  outline: none;
+}
+
+
+/* Toggle buttons */
+
+.togglebox input {
+  display:none;
+}
+
+.togglebox {
+  display: inline-block;
+  border: 1px solid #BBB;
+  width: 60px;
+  height: 22px;
+  position: relative;
+  border-radius: 12px;
+  color: #FFF;
+  font-weight: bold;
+  overflow: hidden;
+  box-shadow :0 1px 0 #CCC;
+}
+
+.togglebox label {
+  width: 200%;
+  height: 100%;
+  line-height: 22px;
+  border-radius: 0.4em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  font-size: 14px;
+  font-family: 'Arial';
+  cursor: pointer;
+  -webkit-transition: 0.12s;
+  -moz-transition: 0.12s;
+  transition: 0.12s;
+}
+
+.togglebox span {
+  position: absolute;
+  right: -100px;
+}
+
+.togglebox label::before {
+  content: 'ON';
+  width: 44px;
+  float: left;
+  margin-right: 0px;
+  padding-right: 13px;
+  text-align: center;
+  background: rgb(249, 90, 10);
+  text-shadow: none;
+  box-shadow: 0 4px 5px -2px rgba(0,0,0,0.3) inset;
+}
+
+.togglebox label b {
+  display: block;
+  height: 100%;
+  width: 20px;
+  float: left;
+  margin-top: -1px;
+  margin-left: -18px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid #999;
+  background: #F6F6F6;
+  box-shadow: 0 4px 0 -2px #F1F1F1 inset, 0 2em 2em -2em #AAA inset, 0 0 2px rgba(0,0,0,.5);
+  border-radius: 20px;
+}
+
+.togglebox label:hover b {
+   background: #E5E5E5;
+}
+
+.togglebox label::after {
+  content: 'OFF';
+  width: 44px;
+  float: left;
+  margin-left: -15px;
+  padding-left: 11px;
+  text-align: center;
+  color: #999;
+  background: #FFF;
+  box-shadow: 0 4px 5px -2px rgba(0,0,0,0.3) inset;
+}
+
+.togglebox input:checked ~ label {
+   left: -40px;
+}
+

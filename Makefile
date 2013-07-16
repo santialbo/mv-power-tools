@@ -1,33 +1,33 @@
 # Module definitions
-MODULE_FILES = header.js main.js shortcuts.js author-enhancements.js infinite-scrolling.js extended-reply-form.js live-preview.js
+MODULE_FILES = main settings-panel shortcuts infinite-scrolling author-enhancements extended-reply-form live-preview
 MODULE_DIR = ./modules/
-MODULES = $(addprefix $(MODULE_DIR), $(MODULE_FILES))
+MODULES = $(addsuffix .coffee, $(addprefix $(MODULE_DIR), $(MODULE_FILES)))
+CSS = $(addsuffix .css, $(addprefix $(MODULE_DIR), $(MODULE_FILES)))
 
 # Build options
 FILE_OUT = mv-power-tools.user.js
+CSS_OUT = mv-power-tools.css
 DEV_DIR = ./debug
-BUILD_DIR = ./build
 
-KEEP_COMMENTS = --comments all
-DEV_OPTIONS = --screw-ie8 --lint --beautify $(KEEP_COMMENTS) --output $(DEV_DIR)/$(FILE_OUT)
-BUILD_OPTIONS = --screw-ie8 --compress --mangle $(KEEP_COMMENTS) --output $(BUILD_DIR)/$(FILE_OUT)
+DEV_OPTIONS = --compile --join $(DEV_DIR)/$(FILE_OUT)
+CSS_OPTIONS = --keep-line-breaks --output $(DEV_DIR)/$(CSS_OUT)
 
 # Extension bundling options
 FIREFOX_OUT = Firefox/resources/mv-power-tools/data/
 CHROME_OUT = Chrome/
 
 # Rules
-.PHONY=all dev
+.PHONY=all dev watch-coffee
 
 all: dev
 
+watch-coffee: $(MODULES)
+	coffee --watch $(DEV_OPTIONS) $(MODULES)
+
 dev: $(MODULES)
-	uglifyjs $(MODULES) $(DEV_OPTIONS)
+	coffee $(DEV_OPTIONS) $(MODULES) 
+	cat $(CSS) | cleancss $(CSS_OPTIONS)
 	cp $(DEV_DIR)/$(FILE_OUT) $(DEV_DIR)/$(FIREFOX_OUT)
 	rm -f $(DEV_DIR)/mv-power-tools.xpi
 	cd $(DEV_DIR)/Firefox/; zip -9 -r mv-power-tools.xpi .
-	mv $(DEV_DIR)/Firefox/mv-power-tools.xpi $(DEV_DIR)
 	cp $(DEV_DIR)/$(FILE_OUT) $(DEV_DIR)/$(CHROME_OUT)
-
-$(BUILD_DIR)/$(FILE_OUT): $(MODULES)
-	uglifyjs $(MODULES) $(OPTIONS)
