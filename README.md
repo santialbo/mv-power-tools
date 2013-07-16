@@ -41,3 +41,5 @@ PT.register do ($=jQuery) ->
 
   new Module(name, title, description, scopes, false, init, _on, _off)
 ```
+
+You can also check some of the existing modules for an actual example.
