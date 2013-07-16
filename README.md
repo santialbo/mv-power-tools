@@ -12,6 +12,8 @@ In order to write a new module you simply have to create a new `module-name.coff
 
 In the `css` file you must add all the styling required by the module (try not to add styling in the script).
 
+Prepend all class names and ids with `pt-module-name` in order to avoid conflicts with other modules and the main page.
+
 The `coffee` file must follow the next structure:
 
 ```coffeescript
@@ -23,7 +25,7 @@ PT.register do ($=jQuery) ->
   # Description of what the module does. Will show up on the settings panel.
   description = "This is a super module that does amazing things."
   # scopes is a list of functions that, if any returns true, the script will run
-  # Check main.coffee for a list of already predefined functions.
+  # Check main.coffee for a list of already predefined functions. You can also add your own functions.
   scopes =      [PT.scope.thread, PT.scope.profile]
   
   # Here go all variables / functions you are going to use
