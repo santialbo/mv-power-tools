@@ -1,5 +1,5 @@
 # Module definitions
-MODULE_FILES = main settings-panel shortcuts infinite-scrolling author-enhancements extended-reply-form live-preview
+MODULE_FILES = main settings-panel shortcuts infinite-scrolling author-enhancements extended-reply-form live-preview image-embeed
 MODULE_DIR = ./modules/
 MODULES = $(addsuffix .coffee, $(addprefix $(MODULE_DIR), $(MODULE_FILES)))
 CSS = $(addsuffix .css, $(addprefix $(MODULE_DIR), $(MODULE_FILES)))
