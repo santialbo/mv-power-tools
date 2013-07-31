@@ -34,11 +34,11 @@ PT.register do ($=jQuery) ->
       if module.general then return
       settingsRow = $("""
       <div class="pt-settings-row">
-        <span class="pt-settings-module-name">""" + module.title + """:</span>
-        <span class="pt-settings-module-description">""" + module.description + """</span>
+        <span class="pt-settings-module-name">#{module.title}:</span>
+        <span class="pt-settings-module-description">#{module.description}</span>
         <div class="togglebox pull-right">
-          <input type="checkbox" id="pt-settings-""" + module.name + """">
-          <label for="pt-settings-""" + module.name + """"><b></b></label>
+          <input type="checkbox" id="pt-settings-#{module.name}">
+          <label for="pt-settings-#{module.name}"><b></b></label>
         </div>
       </div>
       """)

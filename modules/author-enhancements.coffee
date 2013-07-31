@@ -27,10 +27,10 @@ PT.register do ($=jQuery) ->
           <a class="pt-author-status" href="javascript:;" original-title="Offline">
             <i class="icon-user"></i>
           </a>
-          <a class="pt-author-mensaje" href="/mensajes/nuevo/""" + id + """" original-title="Mensaje">
+          <a class="pt-author-mensaje" href="/mensajes/nuevo/#{id}" original-title="Mensaje">
             <i class="icon-envelope-alt"></i>
           </a>
-          <a class="pt-author-firma" href="/id/""" + id + """/firmas" original-title="Firmas">
+          <a class="pt-author-firma" href="/id/#{id}/firmas" original-title="Firmas">
             <i class="icon-comments-alt"></i>
           </a>
           <a class="pt-author-info" original-title="Info" href="#">
@@ -46,17 +46,14 @@ PT.register do ($=jQuery) ->
 
 
       $('a.pt-author-info', enhancements).click () ->
-        divInfo = $('.pt-author-userinfo', $(divAuthor));
+        divInfo = $('.pt-author-userinfo', $(divAuthor))
         if divInfo.length > 0
           divInfo.toggle()
         else
           getUserInfo(id).then (info) ->
             thousands = (num) ->
               num.replace /\B(?=(\d{3})+(?!\d))/g, '.'
-            userinfo = $("""
-              <dl class="pt-author-userinfo">
-              </dl>
-              """)
+            userinfo = $('<dl class="pt-author-userinfo"></dl>')
             name = $('<dd><strong>' + info.name + '</strong></dd>')
             if info.age
               userinfo.append(name.append $('<span> (' + info.age + ')</span>'))
@@ -65,10 +62,10 @@ PT.register do ($=jQuery) ->
             if info.lastSeen != 'online'
               $('<dd>visto hace ' + info.lastSeen + '</dd>').appendTo userinfo
             userinfo
-              .append $('<dd>registro: ' + info.registered + '</dd>')
-              .append $('<dd>posts: ' + thousands(info.posts) + '</dd>')
-              .append $('<dd>visitas: ' + thousands(info.visits) + '</dd>')
-              .append $('<dd><a href="/id/' + id + '/firmas">firmas: ' + thousands(info.firmas) + '</a></dd>')
+              .append $("<dd>registro: #{info.registered}</dd>")
+              .append $("<dd>posts: #{thousands(info.posts)}</dd>")
+              .append $("<dd>visitas: #{thousands(info.visits)}</dd>")
+              .append $("<dd><a href=\"/id/#{id}/firmas\">firmas: #{thousands(info.firmas)}</a></dd>")
             userinfo.appendTo $(divAuthor)
         $("div.tipsy").remove()
         false

@@ -81,7 +81,7 @@ PT.register do ($=jQuery) ->
           sign.remove()
           loading = false
         .fail () ->
-          sign.html('<strong>Error cargando respuestas.</strong> <a href="' + url + '/' + currentPage +'#aultimo">Recarga la página</a>').removeClass('alert-info')
+          sign.html("<strong>Error cargando respuestas.</strong> <a href=\"#{url}/#{currentPage}#aultimo\">Recarga la página</a>").removeClass('alert-info')
 
   checkCurrentPage = () =>
     scroll = $(window).scrollTop() + $(window).height()
