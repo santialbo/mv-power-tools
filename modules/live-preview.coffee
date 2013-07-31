@@ -17,7 +17,6 @@ PT.register do ($=jQuery) ->
   updatePreview = () ->
     cabecera = $('#cabecera')
     post = $.merge($('#postear'), $('#postform')).serialize()
-    console.log post
     $.post("/foro/acciones_preview.php", post).then (res) ->
       $('#pt-live-preview-inner').html(JSON.parse(res).cuerpo)
 

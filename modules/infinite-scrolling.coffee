@@ -87,7 +87,6 @@ PT.register do ($=jQuery) ->
     scroll = $(window).scrollTop() + $(window).height()
     for page in pages
       if page.posts.first().offset().top < scroll then current = page.page else break
-    console.log
     if current != currentPage
         currentPage = current
         updatePagination url, currentPage
