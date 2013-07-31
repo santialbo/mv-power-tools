@@ -18,7 +18,7 @@ PT.register do ($=jQuery, Mousetrap) ->
     'Foros': () -> window.location.href = URL + '/foro/'
     'Spy': () -> window.location.href = URL + '/foro/spy'
     'Nuevo tema': () ->
-      if PT.scopes.forum() then window.location.href = URL + '/post.php?fid=' + $('#fid').val()
+      if PT.scopes.forum() then window.location.href = URL + '/foro/post.php?fid=' + $('#fid').val()
     'Responder': () ->
       if PT.scopes.thread()
         $('#postform').show()
