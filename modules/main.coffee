@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name        mv-power-tools
 // @namespace   santialbo/mv-power-tools
-// @version     0
+// @version     0.2.0
 // @description Adds extra features for mediavida.com
 // @grant       GM_addStyle
 // @include     http://www.mediavida.com/*
@@ -17,7 +17,7 @@ $('head').append '<link href="//dl.dropboxusercontent.com/u/1007985/mv-power-too
 
 
 class PowerTools
-  version: '0.1.0'
+  version: '0.2.0'
   modules: []
   events: {}
   settings: {}
@@ -30,8 +30,8 @@ class PowerTools
     forum:      _.once () -> document.URL.match /\/foro\/((?!(spy|favoritos|\/|\?)).)+(\/p\d+)?(#.*)?$/
     thread:     _.once () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+(\/\d+)?(#.*)?$/
     threadLive: _.once () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+\/live(#.*)?$/
-    compose:    _.once () -> document.URL.match /\/foro\/post\.php\?fid=\d+(#.*)?$/
-    reply:      _.once () -> document.URL.match /\/foro\/post\.php\?tid=\d+(#.*)?$/
+    compose:    _.once () -> document.URL.match /\/foro\/post\.php\?fid=\d+(&.*=.*)?(#.*)?$/
+    reply:      _.once () -> document.URL.match /\/foro\/post\.php\?tid=\d+(&.*=.*)?(#.*)?$/
     profile:    _.once () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
 
   options:
