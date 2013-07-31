@@ -1,7 +1,7 @@
 PT.register do ($=jQuery) ->
   name =        'image-embeed'
   title =       "Incrusta imágenes"
-  description = "Abre los links a imágenes sin necesidad de cambiar de página."
+  description = "Abre los links a imágenes como si fueran spoilers, sin necesidad de cambiar de página."
   scopes =      [PT.scopes.thread]
 
   embeedImages = (posts) ->
