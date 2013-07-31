@@ -18,7 +18,7 @@ PT.register do ($=jQuery) ->
           else
             $("""
               <div class="pt-image-embeed pt-image-embeed-image">
-                <img src="#{$(link).attr('href')}" />
+                <img src="#{$(link).attr('href')}" onload="imgLimit(this)" />
               </div>
               """).insertAfter($(this))
           false
