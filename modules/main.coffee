@@ -17,7 +17,7 @@ $('head').append '<link href="//dl.dropboxusercontent.com/u/1007985/mv-power-too
 
 
 class PowerTools
-  version: 1
+  version: '0.1.0'
   modules: []
   events: {}
   settings: {}
