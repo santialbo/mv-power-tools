@@ -8,6 +8,7 @@ PT.register do ($=jQuery) ->
     buttonHtml = '<a class="pt-image-embeed pt-image-embeed-button"></a>'
     posts.find('.body').find('a[href]')
       .filter(() -> /\.(jpe?g|gif|png)$/.test($(this).attr 'href'))
+      .filter(() -> $(this).find('img').length == 0)
       .each (i, link) ->
         $(buttonHtml).insertAfter(link).click () ->
           $(this).toggleClass('less')
