@@ -16,7 +16,7 @@ PT.register do ($=jQuery) ->
 
   getThreadPageInfo = (url, page) ->
     $.get(url + '/' + page).then (source) ->
-      getInfoFromDocument new DOMParser().parseFromString(source, 'text/html')
+      getInfoFromDocument source
 
   appendPostsToPage = (posts) ->
     $('#aultimo').remove()

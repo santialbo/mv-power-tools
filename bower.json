@@ -1,0 +1,10 @@
+{
+  "name": "mv-power-tools",
+  "version": "0.2.0",
+  "dependencies": {
+    "jquery": "~1.10.1",
+    "underscore": "1.5.1",
+    "tipsy": "~0.1.7",
+    "mousetrap": "1.4.4"
+  }
+}

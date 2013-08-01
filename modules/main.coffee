@@ -1,23 +1,8 @@
-###
-// ==UserScript==
-// @name        mv-power-tools
-// @namespace   santialbo/mv-power-tools
-// @version     0
-// @description Adds extra features for mediavida.com
-// @grant       GM_addStyle
-// @include     http://www.mediavida.com/*
-// @require     http://code.jquery.com/jquery-1.10.1.min.js
-// @require     http://cdn.jsdelivr.net/tipsy/1.0/javascripts/jquery.tipsy.js
-// @require     http://cdn.craig.is/js/mousetrap/mousetrap.min.js
-// @require     http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js
-// ==/UserScript==
-###
-
 $('head').append '<link href="//dl.dropboxusercontent.com/u/1007985/mv-power-tools.css" rel="stylesheet">'
 
 
 class PowerTools
-  version: '0.1.0'
+  version: '0.2.0'
   modules: []
   events: {}
   settings: {}
@@ -30,8 +15,8 @@ class PowerTools
     forum:      _.once () -> document.URL.match /\/foro\/((?!(spy|favoritos|\/|\?)).)+(\/p\d+)?(#.*)?$/
     thread:     _.once () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+(\/\d+)?(#.*)?$/
     threadLive: _.once () -> document.URL.match /\/foro\/[^\/\?]+\/[^\/\?]+\/live(#.*)?$/
-    compose:    _.once () -> document.URL.match /\/foro\/post\.php\?fid=\d+(#.*)?$/
-    reply:      _.once () -> document.URL.match /\/foro\/post\.php\?tid=\d+(#.*)?$/
+    compose:    _.once () -> document.URL.match /\/foro\/post\.php\?fid=\d+(&.*=.*)?(#.*)?$/
+    reply:      _.once () -> document.URL.match /\/foro\/post\.php\?tid=\d+(&.*=.*)?(#.*)?$/
     profile:    _.once () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
 
   options:
@@ -49,7 +34,6 @@ class PowerTools
     if module.name of activeModules
       module.active = activeModules[module.name]
     else
-      console.log 'bye'
       activeModules[module.name] = module.active
       @options.set 'active-modules', activeModules
     @modules.push module

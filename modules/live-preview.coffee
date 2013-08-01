@@ -9,7 +9,7 @@ PT.register do ($=jQuery) ->
   livePreview = $("""
       <div id="pt-live-preview-outer" display="hidden">
         <div id="pt-live-preview-middle">
-          <div id="pt-live-preview-inner"></div>
+          <div class="body" id="pt-live-preview-inner"></div>
         </div>
       </div> 
       """)

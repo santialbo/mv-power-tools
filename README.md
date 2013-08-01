@@ -5,7 +5,19 @@ Enhancements userscript for [mediavida.com](http://www.mediavida.com)
 
 Building
 --------
-Running `make` will create `mv-power-tools.user.js` and `mv-power-tools.css` in the `debug` folder.
+You will need both grunt and bower to make the build. Install them by running:
+```
+npm install -g yo grunt-cli bower
+```
+
+To create the build simply run `grunt` from the home path of the project.
+The generated `.user.js` and `.css` files will be located in the `debug` folder.
+
+For quick development you can use:
+```
+grunt watch
+```
+grunt will watch for changes in the source files and build them when necessary.
 
 You can host your own css file in a server and change the url at the top of the `main.coffee` file.
 

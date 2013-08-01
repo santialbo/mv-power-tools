@@ -1,2 +1,5 @@
-modules/*.js
+.tmp
 debug
+*.log
+node_modules
+bower_components
