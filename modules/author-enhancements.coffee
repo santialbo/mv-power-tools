@@ -7,7 +7,7 @@ PT.register do ($=jQuery) ->
   getUserInfo = (id) ->
     url = 'http://www.mediavida.com/id/' + id
     $.get(url).then (source) ->
-      doc = new DOMParser().parseFromString source, "text/html"
+      doc = source
       div = $('div.userinfo', doc)
       info = {}
       [person, status, registration, forum] = _.pluck div.children(), 'textContent'
