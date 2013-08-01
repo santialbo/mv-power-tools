@@ -9,7 +9,10 @@ var modules = [
   'extended-reply-form',
   'live-preview',
   'image-embeed',
-].map(function(m) {return 'modules/' + m + '.coffee';});
+]
+
+var coffees = modules.map(function(m) {return 'modules/' + m + '.coffee';});
+var styles = modules.map(function(m) {return 'modules/' + m + '.css';});
 
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -25,7 +28,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          '.tmp/joined.user.js': modules,
+          '.tmp/joined.user.js': coffees,
         }
       }
     },
@@ -35,17 +38,17 @@ module.exports = function(grunt) {
         dest: 'debug/mv-power-tools.user.js'
       },
       css: {
-        src: ['modules/*.css'],
+        src: styles,
         dest: 'debug/mv-power-tools.css'
       }
     },
     watch: {
       coffee: {
-        files: ['modules/*.coffee'],
+        files: coffees,
         tasks: ['coffee', 'concat:userscript']
       },
       css: {
-        files: ['modules/*.css'],
+        files: styles,
         tasks: ['concat:css']
       }
     }
