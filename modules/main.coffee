@@ -34,7 +34,6 @@ class PowerTools
     if module.name of activeModules
       module.active = activeModules[module.name]
     else
-      console.log 'bye'
       activeModules[module.name] = module.active
       @options.set 'active-modules', activeModules
     @modules.push module
