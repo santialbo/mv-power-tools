@@ -1,0 +1,23 @@
+{
+  "name": "mv-power-tools",
+  "description": "Enhancements userscript for mediavida.com",
+  "version": "0.2.0",
+  "homepage": "https://github.com/MvPowerTools/mv-power-tools",
+  "keywords": [
+    "mediavida.com",
+    "powertools",
+    "userscript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MvPowerTools/mv-power-tools"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.1",
+    "matchdep": "~0.1.2"
+  }
+}
