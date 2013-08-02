@@ -21,6 +21,9 @@ PT.register do ($=jQuery) ->
     </div>
   """)
 
+  if PT.scopes.dark()
+    settingsPanel.find('.pt-modal').addClass 'dark'
+
   init = () ->
     # Insert button and modal window
     settingsPanel.appendTo $('body')

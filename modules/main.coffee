@@ -18,6 +18,7 @@ class PowerTools
     compose:    _.once () -> document.URL.match /\/foro\/post\.php\?fid=\d+(&.*=.*)?(#.*)?$/
     reply:      _.once () -> document.URL.match /\/foro\/post\.php\?tid=\d+(&.*=.*)?(#.*)?$/
     profile:    _.once () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
+    dark:       _.once () -> $('#main').css('background-color') == 'rgb(47, 56, 62)'
 
   options:
     set: (key, object) -> localStorage.setItem 'pt-' + key, JSON.stringify object
