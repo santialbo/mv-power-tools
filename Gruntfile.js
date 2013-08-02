@@ -9,6 +9,7 @@ var modules = [
   'extended-reply-form',
   'live-preview',
   'image-embeed',
+  'better-live',
 ]
 
 var coffees = modules.map(function(m) {return 'modules/' + m + '.coffee';});
