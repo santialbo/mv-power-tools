@@ -25,6 +25,7 @@ PT.register do ($=jQuery) ->
 
   init = () ->
     livePreview.insertBefore textarea.parent().children().first()
+    updatePreview()
 
   _on =  () ->
     livePreview.show()
