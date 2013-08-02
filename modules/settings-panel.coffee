@@ -49,10 +49,10 @@ PT.register do ($=jQuery) ->
         .prop('checked', not module.active)
         .change () ->
           if $(this).is ':checked'
-            module.off()
+            if module.canRun() then module.off()
             module.toggle()
           else
-            module.on()
+            if module.canRun() then module.on()
             module.toggle()
 
       settingsRow.appendTo $('#pt-module-settings')
