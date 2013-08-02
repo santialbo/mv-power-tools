@@ -41,11 +41,9 @@ class PowerTools
 
   init: () =>
     _.each @modules, (module) ->
-      if module.canRun()
+      if module.canRun() and module.active
         module.on()
 
-  turnOn: (module) ->
-  
   bind: (event, callback) ->
     ###
     Bind event to given callback
@@ -62,7 +60,8 @@ class PowerTools
     ###
     Raises the specified event
     ###
-    _.each @events[event], (f) -> f(e)
+    if event of @events
+      _.each @events[event], (f) -> f(e)
 
 
 class Module
@@ -80,16 +79,16 @@ class Module
     ###
     @active = true
     @init = if _init then _.once _init
-    @on = if _on then () ->
-      @init()
+    @on = () ->
       @active = true
-      _on()
-    @off = if _off then () ->
+      @init()
+      if _on then _on()
+    @off = () ->
       @active = false
-      _off()
+      if _off then _off()
 
   canRun: () ->
-    (@active or @general) and _.any @scopes, (f) -> f()
+    _.any @scopes, (f) -> f()
 
   toggle: () ->
     activeModules = PT.options.get 'active-modules'
