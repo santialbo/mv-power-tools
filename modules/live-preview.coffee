@@ -9,7 +9,7 @@ PT.register do ($=jQuery) ->
   livePreview = $("""
       <div id="pt-live-preview-outer" display="hidden">
         <div id="pt-live-preview-middle">
-          <div class="body" id="pt-live-preview-inner"></div>
+          <div class="body odd" id="pt-live-preview-inner"></div>
         </div>
       </div> 
       """)
@@ -25,6 +25,7 @@ PT.register do ($=jQuery) ->
 
   init = () ->
     livePreview.insertBefore textarea.parent().children().first()
+    updatePreview()
 
   _on =  () ->
     livePreview.show()

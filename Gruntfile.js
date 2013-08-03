@@ -6,9 +6,12 @@ var modules = [
   'shortcuts',
   'infinite-scrolling',
   'author-enhancements',
+  'tags',
   'extended-reply-form',
   'live-preview',
   'image-embeed',
+  'wide-mode',
+  'better-live',
 ]
 
 var coffees = modules.map(function(m) {return 'modules/' + m + '.coffee';});
@@ -26,45 +29,69 @@ module.exports = function(grunt) {
       options: {
         join: true
       },
+      debug: {
+        files: {
+          '.tmp/joined.user.js': ['modules/style.debug.coffee'].concat(coffees),
+        }
+      },
       dist: {
         files: {
-          '.tmp/joined.user.js': coffees,
+          '.tmp/joined.user.js': ['modules/style.dist.coffee'].concat(coffees),
         }
       }
     },
     concat: {
       userscript: {
         src: ['header.user.js', '.tmp/joined.user.js'],
-        dest: 'debug/mv-power-tools.user.js'
+        dest: '.tmp/mv-power-tools.user.js'
       },
       css: {
         src: styles,
-        dest: 'debug/mv-power-tools.css'
+        dest: '.tmp/mv-power-tools.css'
+      }
+    },
+    copy: {
+      debug: {
+        files: [{
+          expand: true,
+          cwd: '.tmp',
+          src: 'mv-power-tools.{user.js,css}',
+          dest: 'debug/'
+        }]
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '.tmp',
+          src: 'mv-power-tools.{user.js,css}',
+          dest: 'dist/'
+        }]
       }
     },
     watch: {
       coffee: {
         files: coffees,
-        tasks: ['coffee', 'concat:userscript']
+        tasks: ['coffee:debug', 'concat:userscript', 'copy:debug']
       },
       css: {
         files: styles,
-        tasks: ['concat:css']
+        tasks: ['concat:css', 'copy:debug']
       }
     }
   });
 
   grunt.registerTask('default',[
     'clean',
-    'coffee',
-    'concat:userscript',
-    'concat:css'
+    'coffee:debug',
+    'concat',
+    'copy:debug'
   ]);
 
   grunt.registerTask('build', [
     'clean',
-    'coffee',
-    'concat'
+    'coffee:dist',
+    'concat',
+    'copy:dist'
   ]);
 
 };

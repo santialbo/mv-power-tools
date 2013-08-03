@@ -1,6 +1,12 @@
 /* Settings panel */
 #pt-settings .pt-modal {
   width: 700px;
+  background-color: rgb(233, 236, 230);;
+}
+
+#pt-settings .pt-modal.dark {
+  color: rgb(238, 238, 238);
+  background-color: rgb(47, 56, 62);
 }
 
 #pt-settings h2 {
@@ -15,7 +21,7 @@
 
 #pt-module-settings .pt-settings-row {
   height: 22px;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid gray;
   padding-top: 10px;
   padding-bottom: 2px;
 }

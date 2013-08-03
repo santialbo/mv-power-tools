@@ -2,7 +2,7 @@ PT.register do ($=jQuery) ->
   name =        'extended-reply-form'
   title =       "Formulario extendido"
   description = "Nueva barra de botones en el formulario de edición."
-  scopes =      [() -> PT.scopes.loggedIn() and (PT.scopes.thread() or PT.scopes.reply() or PT.scopes.compose())]
+  scopes =      [() -> PT.scopes.loggedIn() and (PT.scopes.thread() or PT.scopes.threadLive or PT.scopes.reply() or PT.scopes.compose())]
 
   textarea = $('textarea#cuerpo')
   oldToolbar = $('#btsmile').parent()

@@ -26,4 +26,6 @@
 .pt-author-userinfo {
   float: left;
   font-size: 10px;
+  width: 100%;
+  display: none;
 }

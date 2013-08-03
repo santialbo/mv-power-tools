@@ -20,10 +20,10 @@ PT.register do ($=jQuery, Mousetrap) ->
     'Nuevo tema': () ->
       if PT.scopes.forum() then window.location.href = URL + '/foro/post.php?fid=' + $('#fid').val()
     'Responder': () ->
-      if PT.scopes.thread()
+      if PT.scopes.thread() or PT.scopes.threadLive()
         $('#postform').show()
         $('#cuerpo').focus()
-        $("html, body").animate { scrollTop: $(document).height() }, 'fast'
+        $("html, body").animate { scrollTop: $('#postform').offset().top }, 'fast'
     'Foro - Acusaciones de cheats': () -> window.location.href = URL + '/foro/cheats'
     'Foro - Anime y manga': () -> window.location.href = URL + '/foro/anime-manga'
     'Foro - Aplicaciones móvil': () -> window.location.href = URL + '/foro/aplicaciones-movil'

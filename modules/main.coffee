@@ -1,8 +1,5 @@
-$('head').append '<link href="//dl.dropboxusercontent.com/u/1007985/mv-power-tools.css" rel="stylesheet">'
-
-
 class PowerTools
-  version: '0.2.0'
+  version: '0.3.0'
   modules: []
   events: {}
   settings: {}
@@ -18,6 +15,7 @@ class PowerTools
     compose:    _.once () -> document.URL.match /\/foro\/post\.php\?fid=\d+(&.*=.*)?(#.*)?$/
     reply:      _.once () -> document.URL.match /\/foro\/post\.php\?tid=\d+(&.*=.*)?(#.*)?$/
     profile:    _.once () -> document.URL.match /\/id\/[^\/]+(#.*)?$/
+    dark:       _.once () -> $('#main').css('background-color') == 'rgb(47, 56, 62)'
 
   options:
     set: (key, object) -> localStorage.setItem 'pt-' + key, JSON.stringify object
@@ -40,11 +38,9 @@ class PowerTools
 
   init: () =>
     _.each @modules, (module) ->
-      if module.canRun()
+      if module.canRun() and module.active
         module.on()
 
-  turnOn: (module) ->
-  
   bind: (event, callback) ->
     ###
     Bind event to given callback
@@ -61,7 +57,8 @@ class PowerTools
     ###
     Raises the specified event
     ###
-    _.each @events[event], (f) -> f(e)
+    if event of @events
+      _.each @events[event], (f) -> f(e)
 
 
 class Module
@@ -79,16 +76,16 @@ class Module
     ###
     @active = true
     @init = if _init then _.once _init
-    @on = if _on then () ->
-      @init()
+    @on = () ->
       @active = true
-      _on()
-    @off = if _off then () ->
+      @init()
+      if _on then _on()
+    @off = () ->
       @active = false
-      _off()
+      if _off then _off()
 
   canRun: () ->
-    (@active or @general) and _.any @scopes, (f) -> f()
+    _.any @scopes, (f) -> f()
 
   toggle: () ->
     activeModules = PT.options.get 'active-modules'
