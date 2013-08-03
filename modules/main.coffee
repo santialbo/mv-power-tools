@@ -1,6 +1,3 @@
-$('head').append '<link href="//dl.dropboxusercontent.com/u/1007985/mv-power-tools.css" rel="stylesheet">'
-
-
 class PowerTools
   version: '0.2.0'
   modules: []
