@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        mv-power-tools
 // @namespace   santialbo/mv-power-tools
-// @version     0.2.0
+// @version     0.3.0
 // @description Adds extra features for mediavida.com
 // @grant       GM_addStyle
 // @include     http://www.mediavida.com/*

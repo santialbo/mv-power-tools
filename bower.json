@@ -1,6 +1,6 @@
 {
   "name": "mv-power-tools",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "dependencies": {
     "jquery": "~1.10.1",
     "underscore": "1.5.1",
