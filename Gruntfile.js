@@ -6,6 +6,7 @@ var modules = [
   'shortcuts',
   'infinite-scrolling',
   'author-enhancements',
+  'tags',
   'extended-reply-form',
   'live-preview',
   'image-embeed',

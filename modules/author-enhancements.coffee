@@ -48,12 +48,12 @@ PT.register do ($=jQuery) ->
       $('a.pt-author-info', enhancements).click () ->
         divInfo = $('.pt-author-userinfo', $(divAuthor))
         if divInfo.length > 0
-          divInfo.toggle()
+          divInfo.slideToggle()
         else
           getUserInfo(id).then (info) ->
             thousands = (num) ->
               num.replace /\B(?=(\d{3})+(?!\d))/g, '.'
-            userinfo = $('<dl class="pt-author-userinfo"></dl>')
+            userinfo = $('<dd class="pt-author-userinfo"></dd>')
             name = $('<dd><strong>' + info.name + '</strong></dd>')
             if info.age
               userinfo.append(name.append $('<span> (' + info.age + ')</span>'))
@@ -61,12 +61,14 @@ PT.register do ($=jQuery) ->
               $('<dd>en ' + info.city + '</dd>').appendTo userinfo
             if info.lastSeen != 'online'
               $('<dd>visto hace ' + info.lastSeen + '</dd>').appendTo userinfo
-            userinfo
-              .append $("<dd>registro: #{info.registered}</dd>")
-              .append $("<dd>posts: #{thousands(info.posts)}</dd>")
-              .append $("<dd>visitas: #{thousands(info.visits)}</dd>")
-              .append $("<dd><a href=\"/id/#{id}/firmas\">firmas: #{thousands(info.firmas)}</a></dd>")
-            userinfo.appendTo $(divAuthor)
+            userinfo.append $("""
+              <dd>registro: #{info.registered}</dd>
+              <dd>posts: #{thousands(info.posts)}</dd>
+              <dd>visitas: #{thousands(info.visits)}</dd>
+              <dd><a href=\"/id/#{id}/firmas\">firmas: #{thousands(info.firmas)}</a></dd>
+            """)
+            userinfo.insertAfter($(enhancements)).slideToggle()
+
         $("div.tipsy").remove()
         false
 
