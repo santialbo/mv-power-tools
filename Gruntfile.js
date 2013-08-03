@@ -9,6 +9,7 @@ var modules = [
   'extended-reply-form',
   'live-preview',
   'image-embeed',
+  'wide-mode',
   'better-live',
 ]
 
