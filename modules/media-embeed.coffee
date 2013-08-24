@@ -10,6 +10,16 @@ PT.register do ($=jQuery) ->
       <img src="#{src}" onload="imgLimit(this)" />
     </div>
     """
+
+  youtubeDivWithId = (id) ->
+    """
+    <div class="pt-media-embeed pt-media-embeed-youtube embedded">
+      <iframe width="560" height="349" frameborder="0" allowfullscreen=""
+        src="http://www.youtube.com/embed/#{id}?rel=0&hd=1&wmode=opaque"
+        type="text/html" title="YouTube video player">
+      </iframe>
+      </div>
+    """
   
   # medias is an array of objects with a matcher function that matches the url of the link
   # and a transformer function that takes the link and transforms it to the dom element that
@@ -21,6 +31,9 @@ PT.register do ($=jQuery) ->
     },{ # Imgur images
       matcher: /imgur.com\/[a-zA-Z0-9]+(\?.*)?$/,
       transformer: (href) -> imageDivWithSrc "http://i.imgur.com/#{href.match(/imgur.com\/([a-zA-Z0-9]+)/)[1]}.jpg"
+    },{ # Youtube video #https://www.youtube.com/watch?v=oLkm3ecMD7g
+      matcher: /youtube.com\/watch\?v=[a-zA-Z0-9]+(&.*)?$/,
+      transformer: (href) -> youtubeDivWithId href.match(/youtube.com\/watch\?v=([a-zA-Z0-9]+)(&.*)?$/)[1]
     }
   ]
 
