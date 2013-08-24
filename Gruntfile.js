@@ -9,7 +9,7 @@ var modules = [
   'tags',
   'extended-reply-form',
   'live-preview',
-  'image-embeed',
+  'media-embeed',
   'wide-mode',
   'better-live',
 ]

@@ -1,12 +1,12 @@
 PT.register do ($=jQuery) ->
-  name =        'image-embeed'
-  title =       "Incrusta imágenes"
-  description = "Abre los links a imágenes como si fueran spoilers, sin necesidad de cambiar de página."
+  name =        'media-embeed'
+  title =       "Incrusta imágenes y videos"
+  description = "Abre los links a imágenes como si fueran spoilers."
   scopes =      [PT.scopes.thread]
 
   imageDivWithSrc = (src) ->
     """
-    <div class="pt-image-embeed pt-image-embeed-image">
+    <div class="pt-media-embeed pt-media-embeed-image">
       <img src="#{src}" onload="imgLimit(this)" />
     </div>
     """
@@ -25,14 +25,14 @@ PT.register do ($=jQuery) ->
   ]
 
   embeedMedia = (posts) ->
-    buttonHtml = '<a class="pt-image-embeed pt-image-embeed-button"></a>'
+    buttonHtml = '<a class="pt-media-embeed pt-media-embeed-button"></a>'
     posts.find('.body').find('a[href]')
       .filter(() -> _.any(medias, ((media) -> media.matcher.test $(this).attr('href')), this))
       .filter(() -> $(this).find('img').length == 0)
       .each (i, link) ->
         $(buttonHtml).insertAfter(link).click () ->
           $(this).toggleClass('less')
-          img = $(this).next('div.pt-image-embeed-image')
+          img = $(this).next('div.pt-media-embeed-image')
           if img.length > 0
             img.toggle()
           else
@@ -52,7 +52,7 @@ PT.register do ($=jQuery) ->
     PT.bind 'afterAddPosts', embeedMediaEvent
 
   _off = () ->
-    $('.pt-image-embeed').remove()
+    $('.pt-media-embeed').remove()
     PT.unbind 'afterAddPosts', embeedMediaEvent
 
   new Module(name, title, description, scopes, false, init, _on, _off)
