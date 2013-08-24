@@ -93,13 +93,17 @@ PT.register do ($=jQuery) ->
         currentPage = current
         updatePagination url, currentPage
 
-  configurePosts = (e) ->
-    posts = e.posts
-    # show +1/report on moouseover
+  configurePosts = (posts) ->
+    configurePostsShowMenuPost posts
+    configurePostsEnablePlusOne posts
+    configurePostsEnableQuoting posts
+
+  configurePostsShowMenuPost = (posts) ->
     posts
       .mouseenter(() -> $('.post_hide', $(this)).show())
       .mouseleave(() -> $('.post_hide', $(this)).hide())
-    # enables +1
+
+  configurePostsEnablePlusOne = (posts) ->
     $('.masmola', posts).click () ->
       counter = $(this).parent().parent().prev().find(".mola")
       pid = $(this).attr('rel')
@@ -116,7 +120,8 @@ PT.register do ($=jQuery) ->
           else if res == '-4' then alert 'No puedes votar este post'
         .fail () -> alert 'Se ha producido un error, inténtalo más tarde'
       false
-    # click on #XX for quoting
+
+  configurePostsEnableQuoting = (posts) ->
     $('.qn', posts).click () ->
       pid = $(this).attr('rel')
       textarea = $('#cuerpo')
@@ -125,7 +130,7 @@ PT.register do ($=jQuery) ->
       textarea.val(textarea.val() + '#' + pid + ' ')
       $('html, body').animate { scrollTop: $(document).height() }, 'fast'
       false
-
+    
   moar = () =>
     last = _.last(pages)
     if last.page < last.numPages then return
@@ -150,6 +155,7 @@ PT.register do ($=jQuery) ->
     nposts = (last.page - 1)*30 + last.posts.length
     moarnum.val nposts
 
+  configurePostsEvent = (e) -> configurePosts e.posts
 
   init = () ->
     url = /.*\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0]
@@ -160,7 +166,7 @@ PT.register do ($=jQuery) ->
     loading = false
     $(window).bind 'scroll', loadNextPage
     $(window).bind 'scroll', checkCurrentPage
-    PT.bind 'afterAddPosts', configurePosts
+    PT.bind 'afterAddPosts', configurePostsEvent
     moarInterval = setInterval moar, 10000
     moarnum = $('#moarnum').detach()
     $('#moarload').parent().remove()
@@ -168,7 +174,7 @@ PT.register do ($=jQuery) ->
   _off = () ->
     $(window).unbind 'scroll', loadNextPage
     $(window).unbind 'scroll', checkCurrentPage
-    PT.unbind 'afterAddPosts', configurePosts
+    PT.unbind 'afterAddPosts', configurePostsEvent
     updatePagination url, pages[0].page
     _.each _.rest(pages), (page) -> page.posts.remove()
     clearInterval moarInterval
