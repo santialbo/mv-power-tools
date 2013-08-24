@@ -12,7 +12,7 @@ PT.register do ($=jQuery) ->
     return {} =
       page: page
       numPages: if last.length then parseInt(last.first().text()) else page
-      posts: $('.post:not(.postit,:last)', doc)
+      posts: $('.post:not(.postit,:last),.nopost', doc)
 
   getThreadPageInfo = (url, page) ->
     $.get(url + '/' + page).then (source) ->
