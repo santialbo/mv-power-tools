@@ -71,17 +71,19 @@ PT.register do ($=jQuery) ->
     last = _.last(pages)
     if scroll > bpScroll and not $('#postform').is(':visible') and last.page < last.numPages
       loading = true
-      sign = $('<div id="pt-infinite-scrolling-sign" class="alert alert-info"></div>')
-        .html('<strong>Cargando respuestas</strong> ...')
+      sign = $('<div id="pt-infinite-scrolling-sign" class="alert"></div>')
+        .html('<i class="icon-spinner icon-spin"></i> <b>Cargando respuestas ...</b>')
         .insertBefore $('#bottompanel')
-      getThreadPageInfo(url, currentPage + 1)
+      page = currentPage + 1
+      getThreadPageInfo(url, page)
         .then (info) ->
           pages.push info
           appendPostsToPage info.posts
-          sign.remove()
+          sign
+            .html("<b>Página #{page}</b> <i class=\"icon-arrow-down\"></i>").addClass('alert-info')
           loading = false
         .fail () ->
-          sign.html("<strong>Error cargando respuestas.</strong> <a href=\"#{url}/#{currentPage}#aultimo\">Recarga la página</a>").removeClass('alert-info')
+          sign.html("<strong>Error cargando respuestas.</strong> <a href=\"#{url}/#{currentPage}#aultimo\">Recarga la página</a>").addClass('alert-error')
 
   checkCurrentPage = () =>
     scroll = $(window).scrollTop() + $(window).height()
