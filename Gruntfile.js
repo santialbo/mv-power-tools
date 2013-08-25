@@ -93,10 +93,24 @@ module.exports = function(grunt) {
         }]
       }
     },
+    replace: {
+      version: {
+        options: {
+          variables: {
+            'version': '<%= pkg.version %>'
+          },
+          prefix: '@@'
+        },
+        files: [{
+          src: ['.tmp/mv-power-tools.user.js'],
+          dest: '.tmp/mv-power-tools.user.js'
+        }]
+      }
+    },
     watch: {
       coffee: {
         files: coffees,
-        tasks: ['coffee:debug', 'concat:userscript', 'copy:debug']
+        tasks: ['coffee:debug', 'concat:userscript', 'replace:version', 'copy:debug']
       },
       css: {
         files: styles,
@@ -109,14 +123,17 @@ module.exports = function(grunt) {
     'clean',
     'coffee:debug',
     'concat',
+    'replace:version',
     'copy:debug'
   ]);
 
-  grunt.registerTask('build', [
+  grunt.registerTask('deploy', [
     'clean',
     'coffee:dist',
     'concat',
-    'copy:dist'
+    'replace:version',
+    'copy:dist',
+    'aws_s3'
   ]);
 
 };
