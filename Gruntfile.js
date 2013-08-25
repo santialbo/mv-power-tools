@@ -1,5 +1,7 @@
 'use strict';
 
+var pkg = require('./package.json');
+
 var modules = [
   'main',
   'settings-panel',
@@ -9,10 +11,12 @@ var modules = [
   'tags',
   'extended-reply-form',
   'live-preview',
-  'image-embeed',
+  'media-embeed',
   'wide-mode',
   'better-live',
 ]
+
+var HOME = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
 var coffees = modules.map(function(m) {return 'modules/' + m + '.coffee';});
 var styles = modules.map(function(m) {return 'modules/' + m + '.css';});
@@ -68,10 +72,45 @@ module.exports = function(grunt) {
         }]
       }
     },
+    aws: grunt.file.readJSON(HOME + '/.aws/mv-power-tools'),
+    aws_s3: {
+      options: {
+        accessKeyId: '<%= aws.access_key %>',
+        secretAccessKey: '<%= aws.secret_key %>',
+        bucket: 'mv-power-tools'
+      },
+      prod: {
+        files: [{
+          expand: true,
+          cwd: 'dist/',
+          src: ['**'],
+          dest: '<%= pkg.version %>'
+        }, {
+          expand: true,
+          cwd: 'dist/',
+          src: ['**'],
+          dest: 'latest'
+        }]
+      }
+    },
+    replace: {
+      version: {
+        options: {
+          variables: {
+            'version': '<%= pkg.version %>'
+          },
+          prefix: '@@'
+        },
+        files: [{
+          src: ['.tmp/mv-power-tools.user.js'],
+          dest: '.tmp/mv-power-tools.user.js'
+        }]
+      }
+    },
     watch: {
       coffee: {
         files: coffees,
-        tasks: ['coffee:debug', 'concat:userscript', 'copy:debug']
+        tasks: ['coffee:debug', 'concat:userscript', 'replace:version', 'copy:debug']
       },
       css: {
         files: styles,
@@ -84,14 +123,17 @@ module.exports = function(grunt) {
     'clean',
     'coffee:debug',
     'concat',
+    'replace:version',
     'copy:debug'
   ]);
 
-  grunt.registerTask('build', [
+  grunt.registerTask('deploy', [
     'clean',
     'coffee:dist',
     'concat',
-    'copy:dist'
+    'replace:version',
+    'copy:dist',
+    'aws_s3'
   ]);
 
 };

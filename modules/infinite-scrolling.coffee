@@ -12,7 +12,7 @@ PT.register do ($=jQuery) ->
     return {} =
       page: page
       numPages: if last.length then parseInt(last.first().text()) else page
-      posts: $('.post:not(.postit,:last)', doc)
+      posts: $('.post:not(.postit,:last),.nopost', doc)
 
   getThreadPageInfo = (url, page) ->
     $.get(url + '/' + page).then (source) ->
@@ -71,17 +71,19 @@ PT.register do ($=jQuery) ->
     last = _.last(pages)
     if scroll > bpScroll and not $('#postform').is(':visible') and last.page < last.numPages
       loading = true
-      sign = $('<div id="pt-infinite-scrolling-sign" class="alert alert-info"></div>')
-        .html('<strong>Cargando respuestas</strong> ...')
+      sign = $('<div id="pt-infinite-scrolling-sign" class="alert"></div>')
+        .html('<i class="icon-spinner icon-spin"></i> <b>Cargando respuestas ...</b>')
         .insertBefore $('#bottompanel')
-      getThreadPageInfo(url, currentPage + 1)
+      page = currentPage + 1
+      getThreadPageInfo(url, page)
         .then (info) ->
           pages.push info
           appendPostsToPage info.posts
-          sign.remove()
+          sign
+            .html("<b>Página #{page}</b> <i class=\"icon-arrow-down\"></i>").addClass('alert-info')
           loading = false
         .fail () ->
-          sign.html("<strong>Error cargando respuestas.</strong> <a href=\"#{url}/#{currentPage}#aultimo\">Recarga la página</a>").removeClass('alert-info')
+          sign.html("<strong>Error cargando respuestas.</strong> <a href=\"#{url}/#{currentPage}#aultimo\">Recarga la página</a>").addClass('alert-error')
 
   checkCurrentPage = () =>
     scroll = $(window).scrollTop() + $(window).height()
@@ -91,13 +93,17 @@ PT.register do ($=jQuery) ->
         currentPage = current
         updatePagination url, currentPage
 
-  configurePosts = (e) ->
-    posts = e.posts
-    # show +1/report on moouseover
+  configurePosts = (posts) ->
+    configurePostsShowMenuPost posts
+    configurePostsEnablePlusOne posts
+    configurePostsEnableQuoting posts
+
+  configurePostsShowMenuPost = (posts) ->
     posts
       .mouseenter(() -> $('.post_hide', $(this)).show())
       .mouseleave(() -> $('.post_hide', $(this)).hide())
-    # enables +1
+
+  configurePostsEnablePlusOne = (posts) ->
     $('.masmola', posts).click () ->
       counter = $(this).parent().parent().prev().find(".mola")
       pid = $(this).attr('rel')
@@ -114,7 +120,8 @@ PT.register do ($=jQuery) ->
           else if res == '-4' then alert 'No puedes votar este post'
         .fail () -> alert 'Se ha producido un error, inténtalo más tarde'
       false
-    # click on #XX for quoting
+
+  configurePostsEnableQuoting = (posts) ->
     $('.qn', posts).click () ->
       pid = $(this).attr('rel')
       textarea = $('#cuerpo')
@@ -123,7 +130,7 @@ PT.register do ($=jQuery) ->
       textarea.val(textarea.val() + '#' + pid + ' ')
       $('html, body').animate { scrollTop: $(document).height() }, 'fast'
       false
-
+    
   moar = () =>
     last = _.last(pages)
     if last.page < last.numPages then return
@@ -148,6 +155,7 @@ PT.register do ($=jQuery) ->
     nposts = (last.page - 1)*30 + last.posts.length
     moarnum.val nposts
 
+  configurePostsEvent = (e) -> configurePosts e.posts
 
   init = () ->
     url = /.*\/foro\/[^\/]+\/[^\/#]+/.exec(document.URL)[0]
@@ -158,7 +166,7 @@ PT.register do ($=jQuery) ->
     loading = false
     $(window).bind 'scroll', loadNextPage
     $(window).bind 'scroll', checkCurrentPage
-    PT.bind 'afterAddPosts', configurePosts
+    PT.bind 'afterAddPosts', configurePostsEvent
     moarInterval = setInterval moar, 10000
     moarnum = $('#moarnum').detach()
     $('#moarload').parent().remove()
@@ -166,7 +174,7 @@ PT.register do ($=jQuery) ->
   _off = () ->
     $(window).unbind 'scroll', loadNextPage
     $(window).unbind 'scroll', checkCurrentPage
-    PT.unbind 'afterAddPosts', configurePosts
+    PT.unbind 'afterAddPosts', configurePostsEvent
     updatePagination url, pages[0].page
     _.each _.rest(pages), (page) -> page.posts.remove()
     clearInterval moarInterval

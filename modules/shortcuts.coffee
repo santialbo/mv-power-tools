@@ -96,13 +96,16 @@ PT.register do ($=jQuery, Mousetrap) ->
     'g l': 'Foro - Libros y cómics'
     'g m': 'Foro - Motor'
     'g o': 'Foro - OFF-Topic'
+    'g r': 'Foro - MMO',
     'g t': 'Foro - Televisión'
     'g v': 'Foro - Vídeos'
     'g w': 'Foro - Desarrollo y diseño'
     'g z': 'Foro - Mediavida'
 
   init = () ->
-    if not PT.options.exists 'shortcuts' then PT.options.set 'shortcuts', defaults
+    #This will be used when shortcuts are fully customizable
+    #if not PT.options.exists 'shortcuts' then PT.options.set 'shortcuts', defaults
+    PT.options.set 'shortcuts', defaults
 
   _on =  () ->
     shortcuts = PT.options.get 'shortcuts'
