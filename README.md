@@ -3,23 +3,41 @@ mv-power-tools
 
 Enhancements userscript for [mediavida.com](http://www.mediavida.com)
 
-Building
---------
-You will need both grunt and bower to make the build. Install them by running:
+Development
+-----------
+
+**Building**
+
+You will need grunt to build. Install it by running:
 ```
-npm install -g yo grunt-cli bower
+npm install -g grunt-cli
 ```
 
 To create the build simply run `grunt` from the home path of the project.
 The generated `.user.js` and `.css` files will be located in the `debug` folder.
 
-For quick development you can use:
+For quick development you can also use the `watch` task:
 ```
 grunt watch
 ```
-grunt will watch for changes in the source files and build them when necessary.
+grunt will watch for changes in the source files and re-build them if necessary.
 
-You can host your own css file in a server and change the url at the top of the `main.coffee` file.
+You can host your own css file in a server (or dropbox public folder, like me) and change the url on the `styles.debug.coffee` file.
+
+**Deployment**
+
+There's a `deploy` task that uploads the resulting `.user.js` and `.css` files to Amazon S3. In order to use it you will need to have your AWS credentials in a file named `mv-power-tools` inside the `.aws` folder in your home directory.
+```
+$ cat ~/.aws/mv-power-tools
+{
+  "access_key": "your-access-key",
+  "secret_key": "your-secret-key"
+}
+```
+
+When running `grunt deploy` grunt will upload the files to a folder with the same name as the version specified in `package.json`. It also uploads them to a folder called `latest`.
+
+*Remeber to up the version when you do changes*
 
 Contribute
 ----------
@@ -29,7 +47,7 @@ In order to write a new module you simply have to create a new `module-name.coff
 
 In the `css` file you must add all the styling required by the module (try not to add styling in the script).
 
-Prepend all class names and ids with `pt-module-name` in order to avoid conflicts with other modules and the main page.
+Prepend all css class names and ids with `pt-module-name` in order to avoid conflicts with other modules and the main page.
 
 The `coffee` file must follow the next structure:
 
