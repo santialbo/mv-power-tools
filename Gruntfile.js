@@ -1,5 +1,7 @@
 'use strict';
 
+var pkg = require('./package.json');
+
 var modules = [
   'main',
   'settings-panel',
@@ -13,6 +15,8 @@ var modules = [
   'wide-mode',
   'better-live',
 ]
+
+var HOME = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
 var coffees = modules.map(function(m) {return 'modules/' + m + '.coffee';});
 var styles = modules.map(function(m) {return 'modules/' + m + '.css';});
@@ -65,6 +69,27 @@ module.exports = function(grunt) {
           cwd: '.tmp',
           src: 'mv-power-tools.{user.js,css}',
           dest: 'dist/'
+        }]
+      }
+    },
+    aws: grunt.file.readJSON(HOME + '/.aws/mv-power-tools'),
+    aws_s3: {
+      options: {
+        accessKeyId: '<%= aws.access_key %>',
+        secretAccessKey: '<%= aws.secret_key %>',
+        bucket: 'mv-power-tools'
+      },
+      prod: {
+        files: [{
+          expand: true,
+          cwd: 'dist/',
+          src: ['**'],
+          dest: '<%= pkg.version %>'
+        }, {
+          expand: true,
+          cwd: 'dist/',
+          src: ['**'],
+          dest: 'latest'
         }]
       }
     },
