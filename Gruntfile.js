@@ -1,6 +1,7 @@
 'use strict';
 
 var pkg = require('./package.json');
+var HOME = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
 var modules = [
   'main',
@@ -14,15 +15,22 @@ var modules = [
   'media-embeed',
   'wide-mode',
   'better-live',
-]
-
-var HOME = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+];
 
 var coffees = modules.map(function(m) {return 'modules/' + m + '.coffee';});
 var styles = modules.map(function(m) {return 'modules/' + m + '.css';});
 
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  
+  var path = require('path'),
+      fs = require('fs');
+
+  var aws, awsPath = path.join(HOME, '.aws', 'mv-power-tools');
+  if (fs.existsSync(awsPath))
+    aws = grunt.file.readJSON(awsPath);
+  else
+    aws = { access_key: '', secret_key: '' };
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -72,7 +80,7 @@ module.exports = function(grunt) {
         }]
       }
     },
-    aws: grunt.file.readJSON(HOME + '/.aws/mv-power-tools'),
+    aws: aws,
     aws_s3: {
       options: {
         accessKeyId: '<%= aws.access_key %>',
