@@ -103,14 +103,19 @@ PT.register do ($=jQuery) ->
     $(post).find('.pt-tags-form').remove()
     enhanceAuthor post
 
+  enhanceAuthorEvent = (e) ->
+    $(e.posts).each((i, post) -> enhanceAuthor post)
+
   init = () ->
     tags = PT.options.get('tags') ? {}
 
   _on = () ->
+    PT.bind 'afterAddPosts', enhanceAuthorEvent
     $('.post:not(.postit,:last)').each((i, post) -> enhanceAuthor post)
     $('.autor').addClass 'pt-tags-autor'
 
   _off = () ->
+    PT.unbind 'afterAddPosts', enhanceAuthorEvent
     $('.pt-tags').remove()
     $('.pt-tags-button').remove()
     $('.pt-tags-form').remove()
