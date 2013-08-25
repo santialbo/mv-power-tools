@@ -13,6 +13,11 @@ You will need grunt to build. Install it by running:
 npm install -g grunt-cli
 ```
 
+Intall dependencies by running:
+```
+npm install
+```
+
 To create the build simply run `grunt` from the home path of the project.
 The generated `.user.js` and `.css` files will be located in the `debug` folder.
 
