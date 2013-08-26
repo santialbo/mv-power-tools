@@ -6,14 +6,14 @@ PT.register do ($=jQuery) ->
 
   imageDivWithSrc = (src) ->
     """
-    <div class="pt-media-embeed pt-media-embeed-image">
+    <div class="pt-media-embeed pt-media-embeed-embedded">
       <img src="#{src}" onload="imgLimit(this)" />
     </div>
     """
 
   youtubeDivWithId = (id) ->
     """
-    <div class="pt-media-embeed pt-media-embeed-youtube embedded">
+    <div class="pt-media-embeed pt-media-embeed-embedded embedded">
       <iframe width="560" height="349" frameborder="0" allowfullscreen=""
         src="http://www.youtube.com/embed/#{id}?rel=0&hd=1&wmode=opaque"
         type="text/html" title="YouTube video player">
@@ -45,7 +45,7 @@ PT.register do ($=jQuery) ->
       .each (i, link) ->
         $(buttonHtml).insertAfter(link).click () ->
           $(this).toggleClass('less')
-          img = $(this).next('div.pt-media-embeed-image')
+          img = $(this).next('.pt-media-embeed-embedded')
           if img.length > 0
             img.toggle()
           else
