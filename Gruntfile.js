@@ -12,7 +12,7 @@ var modules = [
   'tags',
   'extended-reply-form',
   'live-preview',
-  'media-embeed',
+  'media-embed',
   'wide-mode',
   'better-live',
 ];
