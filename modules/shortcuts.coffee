@@ -9,7 +9,7 @@ PT.register do ($=jQuery, Mousetrap) ->
   actions =
     'Perfil': () ->
       if PT.scopes.loggedIn()
-        window.location.href = URL + '/id/' + $('a.lu').text()
+        window.location.href = URL + '/id/' + $('a.lu').eq(0).text()
       else
         window.location.href = URL + '/login.php?return=' + document.URL.replace URL, ''
     'Favoritos': () -> window.location.href = URL + '/foro/favoritos'
