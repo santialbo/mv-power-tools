@@ -2,7 +2,7 @@ PT.register do ($=jQuery) ->
   name =        'wide-mode'
   title =       "Modo ancho"
   description = "Elimina la columna de la derecha en posts y ensancha la principal."
-  scopes =      [PT.scopes.thread]
+  scopes =      [PT.scopes.thread, PT.scopes.threadLive]
 
   widenPosts = (posts) ->
     $(posts).find('.msg .body .cuerpo').css({width: '800px'})
