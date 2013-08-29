@@ -35,49 +35,26 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: {
-      dist: ['.tmp'],
+      dist: ['.tmp', 'dist']
     },
     coffee: {
       options: {
         join: true
       },
-      debug: {
-        files: {
-          '.tmp/joined.user.js': ['modules/style.debug.coffee'].concat(coffees),
-        }
-      },
       dist: {
         files: {
-          '.tmp/joined.user.js': ['modules/style.dist.coffee'].concat(coffees),
+          '.tmp/joined.user.js': ['.tmp/style.coffee'].concat(coffees),
         }
       }
     },
     concat: {
       userscript: {
-        src: ['header.user.js', '.tmp/joined.user.js'],
-        dest: '.tmp/mv-power-tools.user.js'
+        src: ['.tmp/header.user.js', '.tmp/joined.user.js'],
+        dest: 'dist/mv-power-tools.user.js'
       },
-      css: {
+      style: {
         src: styles,
         dest: '.tmp/mv-power-tools.css'
-      }
-    },
-    copy: {
-      debug: {
-        files: [{
-          expand: true,
-          cwd: '.tmp',
-          src: 'mv-power-tools.{user.js,css}',
-          dest: 'debug/'
-        }]
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp',
-          src: 'mv-power-tools.{user.js,css}',
-          dest: 'dist/'
-        }]
       }
     },
     aws: aws,
@@ -87,7 +64,7 @@ module.exports = function(grunt) {
         secretAccessKey: '<%= aws.secret_key %>',
         bucket: 'mv-power-tools'
       },
-      prod: {
+      deploy: {
         files: [{
           expand: true,
           cwd: 'dist/',
@@ -101,46 +78,40 @@ module.exports = function(grunt) {
         }]
       }
     },
-    replace: {
+    includereplace: {
+      style: {
+        cwd: '.',
+        src: 'modules/style.coffee',
+        dest: '.tmp/style.coffee'
+      },
       version: {
         options: {
-          variables: {
-            'version': '<%= pkg.version %>'
-          },
-          prefix: '@@'
+          globals: {
+            version: '<%= pkg.version %>'
+          }
         },
-        files: [{
-          src: ['.tmp/mv-power-tools.user.js'],
-          dest: '.tmp/mv-power-tools.user.js'
-        }]
+        cwd: '.',
+        src: 'header.user.js',
+        dest: '.tmp/header.user.js'
       }
     },
     watch: {
-      coffee: {
-        files: coffees,
-        tasks: ['coffee:debug', 'concat:userscript', 'replace:version', 'copy:debug']
-      },
-      css: {
-        files: styles,
-        tasks: ['concat:css', 'copy:debug']
-      }
+      files: ['modules/*', 'header.user.js'],
+      tasks: ['default']
     }
   });
 
   grunt.registerTask('default',[
     'clean',
-    'coffee:debug',
-    'concat',
-    'replace:version',
-    'copy:debug'
+    'concat:style',
+    'includereplace:style',
+    'coffee:dist',
+    'includereplace:version',
+    'concat:userscript',
   ]);
 
   grunt.registerTask('deploy', [
-    'clean',
-    'coffee:dist',
-    'concat',
-    'replace:version',
-    'copy:dist',
+    'default',
     'aws_s3'
   ]);
 

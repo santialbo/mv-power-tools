@@ -1,5 +1,4 @@
 .tmp
-debug
 dist
 *.log
 node_modules
