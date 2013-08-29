@@ -19,7 +19,7 @@ npm install
 ```
 
 To create the build simply run `grunt` from the home path of the project.
-The generated `.user.js` and `.css` files will be located in the `debug` folder.
+The generated `mv-power-tools.user.js` file will be located in the `dist` folder.
 
 For quick development you can also use the `watch` task:
 ```
@@ -27,11 +27,9 @@ grunt watch
 ```
 grunt will watch for changes in the source files and re-build them if necessary.
 
-You can host your own css file in a server (or dropbox public folder, like me) and change the url on the `styles.debug.coffee` file.
-
 **Deployment**
 
-There's a `deploy` task that uploads the resulting `.user.js` and `.css` files to Amazon S3. In order to use it you will need to have your AWS credentials in a file named `mv-power-tools` inside the `.aws` folder in your home directory.
+There's a `deploy` task that uploads the resulting `mv-power-tools.user.js` file to Amazon S3. In order to use it you will need to have your AWS credentials in a file named `mv-power-tools` inside the `.aws` folder in your home directory.
 ```
 $ cat ~/.aws/mv-power-tools
 {
@@ -40,9 +38,9 @@ $ cat ~/.aws/mv-power-tools
 }
 ```
 
-When running `grunt deploy` grunt will upload the files to a folder with the same name as the version specified in `package.json`. It also uploads them to a folder called `latest`.
+When running `grunt deploy` grunt will upload the file to a folder with the same name as the version specified in `package.json`. It also uploads them to a folder called `latest`.
 
-*Remeber to up the version when you do changes*
+*Remeber to up the version on package.json when you deploy a new version*
 
 Contribute
 ----------
