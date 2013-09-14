@@ -32,8 +32,8 @@ PT.register do ($=jQuery) ->
       matcher: /imgur.com\/[a-zA-Z0-9]+(\?.*)?$/,
       transformer: (href) -> imageDivWithSrc "http://i.imgur.com/#{href.match(/imgur.com\/([a-zA-Z0-9]+)/)[1]}.jpg"
     },{ # Youtube video #https://www.youtube.com/watch?v=oLkm3ecMD7g
-      matcher: /youtube.com\/watch\?v=[a-zA-Z0-9]+(&.*)?$/,
-      transformer: (href) -> youtubeDivWithId href.match(/youtube.com\/watch\?v=([a-zA-Z0-9]+)(&.*)?$/)[1]
+      matcher: /youtube.com\/watch\?v=[a-zA-Z0-9_]+(&.*)?$/,
+      transformer: (href) -> youtubeDivWithId href.match(/youtube.com\/watch\?v=([a-zA-Z0-9_]+)(&.*)?$/)[1]
     }
   ]
 
