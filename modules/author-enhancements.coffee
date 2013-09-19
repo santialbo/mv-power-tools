@@ -24,7 +24,7 @@ PT.register do ($=jQuery) ->
       id = $(divAuthor).find('a:first').attr('href').match(/\/id\/(.*)/)[1]
       enhancements = $("""
         <dd class="pt-author-enhancements">
-          <a class="pt-author-status" href="javascript:;" original-title="Offline">
+          <a class="pt-author-status" href="">
             <i class="icon-user"></i>
           </a>
           <a class="pt-author-mensaje" href="/mensajes/nuevo/#{id}" original-title="Mensaje">
@@ -39,11 +39,10 @@ PT.register do ($=jQuery) ->
         </dd>
         """).insertAfter $($(this).children().first().children()[2])
 
-      if $(divAuthor).find('dd.online').length > 0
-        $('.pt-author-status', enhancements)
-          .addClass('pt-author-online')
-          .attr('original-title', 'Online')
-
+      online = $(divAuthor).find('dd.online').length > 0
+      $('.pt-author-status > i', enhancements)
+        .css('color', if online then 'green' else 'rgb(128,0,0)')
+        .attr('original-title', if online then 'Online' else 'Offline')
 
       $('a.pt-author-info', enhancements).click () ->
         divInfo = $('.pt-author-userinfo', $(divAuthor))
