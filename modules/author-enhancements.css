@@ -15,14 +15,6 @@
   color: rgb(239, 80, 0);
 }
 
-.pt-author-status {
-  color: rgb(128, 0, 0);
-}
-
-.pt-author-online {
-  color: green
-}
-
 .pt-author-userinfo {
   float: left;
   font-size: 10px;

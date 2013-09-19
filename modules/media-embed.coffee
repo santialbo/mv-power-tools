@@ -1,19 +1,19 @@
 PT.register do ($=jQuery) ->
-  name =        'media-embeed'
+  name =        'media-embed'
   title =       "Incrusta imágenes y videos"
   description = "Abre los links a imágenes como si fueran spoilers."
   scopes =      [PT.scopes.thread]
 
   imageDivWithSrc = (src) ->
     """
-    <div class="pt-media-embeed pt-media-embeed-image">
+    <div class="pt-media-embed pt-media-embed-embedded">
       <img src="#{src}" onload="imgLimit(this)" />
     </div>
     """
 
   youtubeDivWithId = (id) ->
     """
-    <div class="pt-media-embeed pt-media-embeed-youtube embedded">
+    <div class="pt-media-embed pt-media-embed-embedded embedded">
       <iframe width="560" height="349" frameborder="0" allowfullscreen=""
         src="http://www.youtube.com/embed/#{id}?rel=0&hd=1&wmode=opaque"
         type="text/html" title="YouTube video player">
@@ -32,20 +32,20 @@ PT.register do ($=jQuery) ->
       matcher: /imgur.com\/[a-zA-Z0-9]+(\?.*)?$/,
       transformer: (href) -> imageDivWithSrc "http://i.imgur.com/#{href.match(/imgur.com\/([a-zA-Z0-9]+)/)[1]}.jpg"
     },{ # Youtube video #https://www.youtube.com/watch?v=oLkm3ecMD7g
-      matcher: /youtube.com\/watch\?v=[a-zA-Z0-9]+(&.*)?$/,
-      transformer: (href) -> youtubeDivWithId href.match(/youtube.com\/watch\?v=([a-zA-Z0-9]+)(&.*)?$/)[1]
+      matcher: /youtube.com\/watch\?v=[a-zA-Z0-9_]+(&.*)?$/,
+      transformer: (href) -> youtubeDivWithId href.match(/youtube.com\/watch\?v=([a-zA-Z0-9_]+)(&.*)?$/)[1]
     }
   ]
 
-  embeedMedia = (posts) ->
-    buttonHtml = '<a class="pt-media-embeed pt-media-embeed-button"></a>'
+  embedMedia = (posts) ->
+    buttonHtml = '<a class="pt-media-embed pt-media-embed-button"></a>'
     posts.find('.body').find('a[href]')
       .filter(() -> _.any(medias, ((media) -> media.matcher.test $(this).attr('href')), this))
       .filter(() -> $(this).find('img').length == 0)
       .each (i, link) ->
         $(buttonHtml).insertAfter(link).click () ->
           $(this).toggleClass('less')
-          img = $(this).next('div.pt-media-embeed-image')
+          img = $(this).next('.pt-media-embed-embedded')
           if img.length > 0
             img.toggle()
           else
@@ -55,17 +55,17 @@ PT.register do ($=jQuery) ->
             ), this
           false
 
-  embeedMediaEvent = (e) ->
-    embeedMedia e.posts
+  embedMediaEvent = (e) ->
+    embedMedia e.posts
 
   init = () ->
 
   _on =  () ->
-    embeedMedia $('.post:not(.postit,:last)')
-    PT.bind 'afterAddPosts', embeedMediaEvent
+    embedMedia $('.post:not(.postit,:last)')
+    PT.bind 'afterAddPosts', embedMediaEvent
 
   _off = () ->
-    $('.pt-media-embeed').remove()
-    PT.unbind 'afterAddPosts', embeedMediaEvent
+    $('.pt-media-embed').remove()
+    PT.unbind 'afterAddPosts', embedMediaEvent
 
   new Module(name, title, description, scopes, false, init, _on, _off)

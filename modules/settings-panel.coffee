@@ -16,7 +16,7 @@ PT.register do ($=jQuery) ->
         <h2>Panel de control</h2>
         <div id="pt-module-settings">
         </div>
-        <a class="pt-modal-close" href="#" title="Close"></a>
+        <a class="pt-modal-close" href="#" title="Close"><i class="icon-remove"></i></a>
       </div>
     </div>
   """)

@@ -1,7 +1,7 @@
 {
   "name": "mv-power-tools",
   "description": "Enhancements userscript for mediavida.com",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/MvPowerTools/mv-power-tools",
   "keywords": [
     "mediavida.com",
@@ -20,7 +20,7 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-watch": "~0.5.1",
     "grunt-aws-s3": "~0.3.0",
-    "grunt-replace": "~0.4.4",
+    "grunt-include-replace": "~1.1.0",
     "matchdep": "~0.1.2"
   }
 }

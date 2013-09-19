@@ -1,4 +1,4 @@
-.pt-media-embeed-button {
+.pt-media-embed-button {
   width: 15px;
   height: 15px;
   cursor: pointer;
@@ -7,6 +7,6 @@
   background-position: 2px 2px;
   background-repeat: no-repeat;
 }
-.pt-media-embeed-button.less {
+.pt-media-embed-button.less {
   background-image: url("http://www.mediavida.com/style/img/less.gif");
 }
