@@ -5,6 +5,7 @@
 // @description Adds extra features for mediavida.com
 // @grant       GM_addStyle
 // @include     http://www.mediavida.com/*
+// @include     https://www.mediavida.com/*
 // @require     http://code.jquery.com/jquery-1.10.1.min.js
 // @require     http://cdn.jsdelivr.net/tipsy/1.0/javascripts/jquery.tipsy.js
 // @require     http://cdn.jsdelivr.net/jquery.minicolors/2.0.5/jquery.minicolors.js
